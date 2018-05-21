@@ -5,6 +5,8 @@
  */
 package GUI;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -39,7 +41,12 @@ public class MainWindow extends Application{
 
             @Override
             public void handle(ActionEvent t) {
-                
+                GameMode gameMode=new GameMode();
+                try {
+                    gameMode.start(stage);
+                } catch (Exception ex) {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         //accion del item
