@@ -16,33 +16,10 @@ import javafx.scene.image.Image;
  */
 public class DrawingMethods {
 
-    private int exit = 7;
-    private int start = 8;
     private Image wall;
     private Image path;
     private Image finish;
     private Image character;
-    private int referenceMatrix[][] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-    {start, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-    {1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1},
-    {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1},
-    {1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1},
-    {1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1},
-    {1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1},
-    {1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-    {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1},
-    {1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1},
-    {1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1},
-    {1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},
-    {1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, exit},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1},
-    {1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
-    {1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
     public DrawingMethods() throws FileNotFoundException {
         this.wall = new Image(new FileInputStream("assets/wall.jpg"));
@@ -51,21 +28,21 @@ public class DrawingMethods {
         this.character = new Image(new FileInputStream("assets/piD2.png"));
     }
 
-    public void drawMaze(GraphicsContext gc) {
-        for (int i = 0; i < this.referenceMatrix.length; i++) {
-            for (int j = 0; j < this.referenceMatrix.length; j++) {
-                if (this.referenceMatrix[i][j] == 0) {
-                    gc.drawImage(this.path, j * 50, i * 50, 50, 50);
+    public void drawMaze(GraphicsContext gc, int referenceMatrix[][], int exit, int start, int size) {
+        for (int i = 0; i < referenceMatrix.length; i++) {
+            for (int j = 0; j < referenceMatrix.length; j++) {
+                if (referenceMatrix[i][j] == 0) {
+                    gc.drawImage(this.path, j * size, i * size, size, size);
                 } else {
-                    if (this.referenceMatrix[i][j] == 1) {
-                        gc.drawImage(this.wall, j * 50, i * 50, 50, 50);
+                    if (referenceMatrix[i][j] == 1) {
+                        gc.drawImage(this.wall, j * size, i * size, size, size);
                     } else {
-                        if (this.referenceMatrix[i][j] == this.start) {
-                            gc.drawImage(this.path, j * 50, i * 50, 50, 50);
-                            gc.drawImage(this.character, j * 50, i * 50, 50, 50);
+                        if (referenceMatrix[i][j] == start) {
+                            gc.drawImage(this.path, j * size, i * size, size, size);
+                            gc.drawImage(this.character, j * size, i * size, size, size);
                         } else {
-                            if (this.referenceMatrix[i][j] == this.exit) {
-                                gc.drawImage(this.finish, j * 50, i * 50, 50, 50);
+                            if (referenceMatrix[i][j] == exit) {
+                                gc.drawImage(this.finish, j * size, i * size, size, size);
                             }
                         }
                     }

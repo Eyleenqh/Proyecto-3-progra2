@@ -52,7 +52,7 @@ public class GameMode extends Application {
         this.btnEasy = new Button("Easy Mode");
         this.btnMedium = new Button("Medium mode");
         this.btnHard = new Button("Hard Mode");
-        
+
         //acciones de los botones
         this.btnEasy.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -61,6 +61,20 @@ public class GameMode extends Application {
                 EasyMode easyMode = new EasyMode();
                 try {
                     easyMode.start(stage);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(GameMode.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        });
+
+        this.btnMedium.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent t) {
+                MediumMode mediumMode = new MediumMode();
+                try {
+                    mediumMode.start(stage);
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(GameMode.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -83,5 +97,5 @@ public class GameMode extends Application {
         stage.setScene(scene);
         stage.show();
     }
-    
+
 }
