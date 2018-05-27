@@ -56,13 +56,19 @@ public class DrawingMethods {
             for (int j = 0; j < this.referenceMatrix.length; j++) {
                 if (this.referenceMatrix[i][j] == 0) {
                     gc.drawImage(this.path, j * 50, i * 50, 50, 50);
-                } else if (this.referenceMatrix[i][j] == 1) {
-                    gc.drawImage(this.wall, j * 50, i * 50, 50, 50);
-                } else if (this.referenceMatrix[i][j] == this.start) {
-                    gc.drawImage(this.path, j * 50, i * 50, 50, 50);
-                    gc.drawImage(this.character, j * 50, i * 50, 50, 50);
-                } else if (this.referenceMatrix[i][j] == this.exit) {
-                    gc.drawImage(this.finish, j * 50, i * 50, 50, 50);
+                } else {
+                    if (this.referenceMatrix[i][j] == 1) {
+                        gc.drawImage(this.wall, j * 50, i * 50, 50, 50);
+                    } else {
+                        if (this.referenceMatrix[i][j] == this.start) {
+                            gc.drawImage(this.path, j * 50, i * 50, 50, 50);
+                            gc.drawImage(this.character, j * 50, i * 50, 50, 50);
+                        } else {
+                            if (this.referenceMatrix[i][j] == this.exit) {
+                                gc.drawImage(this.finish, j * 50, i * 50, 50, 50);
+                            }
+                        }
+                    }
                 }
             }
         }
