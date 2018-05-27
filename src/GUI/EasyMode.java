@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import Methods.DrawingMethods;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import javafx.application.Application;
@@ -24,34 +25,37 @@ import javafx.stage.Stage;
 public class EasyMode extends Application {
 
     private Pane pane;
-    private Image maze;
     private Canvas canvas;
     private GraphicsContext gc;
+    private DrawingMethods dm;
 
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
         primaryStage.setTitle("Mosaic Maker");
         primaryStage.setResizable(false);
+        primaryStage.setMaximized(true);
         //creamos los componentes de la ventana
         this.pane = new Pane();
-        this.canvas = new Canvas(1200, 766);
+        this.canvas = new Canvas(primaryStage.getWidth(), primaryStage.getHeight());
         this.pane.getChildren().add(this.canvas);
-        this.maze = new Image(new FileInputStream("assets/maze1.png"));
         this.gc = canvas.getGraphicsContext2D();
 
         //creamos la escena
-        Scene scene = new Scene(this.pane, 1366, 766);
+        Scene scene = new Scene(this.pane, primaryStage.getWidth(), primaryStage.getMinHeight());
         primaryStage.setScene(scene);
         primaryStage.show();
-        //centramos la escena en la pantalla
+        /*//centramos la escena en la pantalla
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         primaryStage.setX((screenBounds.getWidth() - primaryStage.getWidth()) / 2);
-        primaryStage.setY((screenBounds.getHeight() - primaryStage.getHeight()) / 2);
+        primaryStage.setY((screenBounds.getHeight() - primaryStage.getHeight()) / 2);*/
+        
+        //llamamos a la clase que contiene los metodos de dibujo
+        this.dm = new DrawingMethods();
         //dibujamos
         this.draw(gc);
     }
     //metodo draw
     public void draw(GraphicsContext gc) {
-        gc.drawImage(maze, 0, 0);
+        dm.drawMaze(gc);
     }
 }
