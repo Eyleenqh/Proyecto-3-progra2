@@ -50,4 +50,16 @@ public class DrawingMethods {
             }
         }
     }
+    
+    //Metodo que agrega y quita paredes del laberinto
+    public void removeOrAdd(GraphicsContext gc, int x, int y, int referenceMatrix[][], int exit, int start, int size) {
+        if (referenceMatrix[y / 50][x / 50] == 1) {
+            referenceMatrix[y / 50][x / 50] = 0;
+        } else {
+            if (referenceMatrix[y / 50][x / 50] == 0) {
+                referenceMatrix[y / 50][x / 50] = 1;
+            }
+        }
+        this.drawMaze(gc, referenceMatrix, exit, start, size);
+    }
 }

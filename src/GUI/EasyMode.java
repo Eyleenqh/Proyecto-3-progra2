@@ -9,11 +9,14 @@ import Methods.DrawingMethods;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -61,6 +64,7 @@ public class EasyMode extends Application {
         //creamos los componentes de la ventana
         this.pane = new Pane();
         this.canvas = new Canvas(primaryStage.getWidth(), primaryStage.getHeight());
+        this.canvas.setOnMouseClicked(mouseClick);
         this.pane.getChildren().add(this.canvas);
         this.gc = canvas.getGraphicsContext2D();
 
@@ -82,6 +86,19 @@ public class EasyMode extends Application {
 
     //metodo draw
     public void draw(GraphicsContext gc) {
-        dm.drawMaze(gc, referenceMatrix, exit, start, size);
+        dm.drawMaze(gc, this.referenceMatrix, this.exit, this.start, this.size);
     }
+    
+    //Evento del mouse que permite seleecionar una bloque
+    EventHandler<MouseEvent> mouseClick = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent e) {
+            //obtiene las coordenadas de donde se activo el evento y tamanio en pixeles ingresado por el usuario
+            int x = (int) e.getX();
+            int y = (int) e.getY();
+            if (e.getButton() == MouseButton.PRIMARY) {
+                dm.removeOrAdd(gc, x, y, referenceMatrix, exit, start, size);
+            }
+        }
+    };
 }
