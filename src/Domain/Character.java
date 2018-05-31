@@ -12,25 +12,28 @@ import javafx.scene.image.Image;
  *
  * @author Eyleen
  */
-public class Character {
+public class Character extends Thread{
 
     private int x;
     private int y;
     private int speed;
-    private ArrayList<Image> image;
+    private Image image;
+    private int imageNum;
+    private ArrayList<Image> sprite;
 
     public Character() {
         this.x = 0;
         this.y = 0;
         this.speed=0;
-        this.image =null;
+        this.sprite =null;
     }
     
-    public Character(int x, int y,int speed, ArrayList<Image> image) {
+    public Character(int x, int y,int speed, int imageNum) {
         this.x = x;
         this.y = y;
         this.speed=speed;
-        this.image = image;
+        this.imageNum = imageNum;
+        this.sprite = new ArrayList<Image>();
     }
 
     public int getX() {
@@ -57,12 +60,27 @@ public class Character {
         this.speed = speed;
     }
     
-    public ArrayList<Image> getImage() {
+    public ArrayList<Image> getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(ArrayList<Image> sprite) {
+        this.sprite = sprite;
+    }
+
+    public Image getImage() {
         return image;
     }
 
-    public void setImage(ArrayList<Image> image) {
+    public void setImage(Image image) {
         this.image = image;
     }
+    
+    public int getImageNum() {
+        return imageNum;
+    }
 
+    public void setImageNum(int imageNum) {
+        this.imageNum = imageNum;
+    }
 }

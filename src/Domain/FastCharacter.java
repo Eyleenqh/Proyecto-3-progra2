@@ -5,7 +5,11 @@
  */
 package Domain;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.image.Image;
 
 /**
@@ -19,16 +23,34 @@ public class FastCharacter extends Character {
     private ArrayList<Image> energy;
 
     //constructores
-    public FastCharacter() {
-        super(0, 0, 0, null);
+    public FastCharacter(int x, int y, int speed, int imageNum) {
+        super(x, y, speed, imageNum);
         this.time = 0;
         this.energy = null;
+        try {
+            setSprite();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public FastCharacter(int time, ArrayList<Image> energy, int x, int y, int speed, ArrayList<Image> image) {
-        super(x, y, speed, image);
+    public FastCharacter(int time, ArrayList<Image> energy, int x, int y, int speed, int imageNum) {
+        super(x, y, speed, imageNum);
         this.time = time;
         this.energy = energy;
+        try {
+            setSprite();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void setSprite() throws FileNotFoundException{
+        ArrayList<Image> sprite = super.getSprite();
+        for (int i = 0; i < 3; i++) {
+            sprite.add(new Image(new FileInputStream("assets/piD" + (i+1) + ".png")));
+        }
+        super.setSprite(sprite);
     }
 
     //metodos accesores
@@ -46,5 +68,29 @@ public class FastCharacter extends Character {
 
     public void setEnergy(ArrayList<Image> energy) {
         this.energy = energy;
+    }
+
+    @Override
+    public void run() {
+        ArrayList<Image> sprite = super.getSprite();
+        int i = this.getX();
+        int j = this.getY();
+        this.setY(j);
+        for (int count = 0;; count++) {
+            if (count == 3) {
+                count = 0;
+            }
+            super.setImage(sprite.get(count));
+            super.setX(j * 20);
+            j++;
+            try {
+                Thread.sleep(80);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (j * 20 > 1200) {
+                j = 0;
+            }
+        }
     }
 }

@@ -29,6 +29,7 @@ public class DrawingMethods {
     }
 
     public void drawMaze(GraphicsContext gc, int referenceMatrix[][], int exit, int start, int size) {
+        gc.clearRect(0, 0, 1920, 1080);
         for (int i = 0; i < referenceMatrix.length; i++) {
             for (int j = 0; j < referenceMatrix.length; j++) {
                 if (referenceMatrix[i][j] == 0) {
@@ -39,7 +40,7 @@ public class DrawingMethods {
                     } else {
                         if (referenceMatrix[i][j] == start) {
                             gc.drawImage(this.path, j * size, i * size, size, size);
-                            gc.drawImage(this.character, j * size, i * size, size, size);
+                            //gc.drawImage(this.character, j * size, i * size, size, size);
                         } else {
                             if (referenceMatrix[i][j] == exit) {
                                 gc.drawImage(this.finish, j * size, i * size, size, size);

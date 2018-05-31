@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import Domain.FastCharacter;
 import Methods.DrawingMethods;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,7 +26,7 @@ import javafx.stage.Stage;
  *
  * @author Steven
  */
-public class EasyMode extends Application {
+public class EasyMode extends Application implements Runnable {
 
     private Pane pane;
     private Canvas canvas;
@@ -56,6 +57,9 @@ public class EasyMode extends Application {
     {1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
+    private Thread thread;
+    private FastCharacter fast;
+
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
         primaryStage.setTitle("Easy Mode");
@@ -80,15 +84,20 @@ public class EasyMode extends Application {
         //Creamos la matriz inicial
         //llamamos a la clase que contiene los metodos de dibujo
         this.dm = new DrawingMethods();
-        //dibujamos
-        this.draw(gc);
+
+        this.fast = new FastCharacter(start, 40,10, 0);
+        this.fast.start();
+        
+        this.thread = new Thread(this);
+        this.thread.start();
     }
 
     //metodo draw
     public void draw(GraphicsContext gc) {
         dm.drawMaze(gc, this.referenceMatrix, this.exit, this.start, this.size);
+        gc.drawImage(this.fast.getImage(), this.fast.getX(), this.fast.getY(), 50, 50);
     }
-    
+
     //Evento del mouse que permite seleecionar una bloque
     EventHandler<MouseEvent> mouseClick = new EventHandler<MouseEvent>() {
         @Override
@@ -101,4 +110,26 @@ public class EasyMode extends Application {
             }
         }
     };
+
+    @Override
+    public void run() {
+        long start;
+        long elapsed;
+        long wait;
+        int fps = 30;
+        long time = 1000 / fps;
+
+        while (true) {
+            try {
+                start = System.nanoTime();
+                elapsed = System.nanoTime() - start;
+                wait = time - elapsed / 1000000;
+                Thread.sleep(wait);
+                GraphicsContext gc = this.canvas.getGraphicsContext2D();
+                //dibujamos
+                this.draw(gc);
+            } catch (InterruptedException ex) {
+            }
+        }
+    }
 }

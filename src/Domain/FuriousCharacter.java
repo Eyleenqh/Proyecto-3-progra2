@@ -16,10 +16,10 @@ public class FuriousCharacter extends Character{
 
     //constructores
      public FuriousCharacter() {
-        super(0, 0, 0, null);
+        super(0, 0, 0, 0);
     }
-    public FuriousCharacter(int x, int y, int speed, ArrayList<Image> image) {
-        super(x, y, speed, image);
+    public FuriousCharacter(int x, int y, int speed, ArrayList<Image> image, int imageNum) {
+        super(x, y, speed, imageNum);
     }
     
 }

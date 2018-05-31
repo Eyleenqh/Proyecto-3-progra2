@@ -18,12 +18,12 @@ public class SmartCharacter extends Character {
 
     //constructores
     public SmartCharacter() {
-        super(0, 0, 0, null);
+        super(0, 0, 0, 0);
         this.effect=0;
     }
     
-    public SmartCharacter(int effect, int x, int y, int speed, ArrayList<Image> image) {
-        super(x, y, speed, image);
+    public SmartCharacter(int effect, int x, int y, int speed, ArrayList<Image> image, int imageNum) {
+        super(x, y, speed, imageNum);
         this.effect = effect;
     }
 
