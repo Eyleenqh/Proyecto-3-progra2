@@ -81,6 +81,22 @@ public class GameMode extends Application {
             }
 
         });
+        
+        this.btnHard.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent t) {
+                HardMode hardMode=new HardMode();
+                try {
+                    hardMode.start(stage);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(GameMode.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(GameMode.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        });
 
         //agregamos las imagenes y los botones al gridpane
         this.gpane.add(this.mazeImageE, 0, 0);
