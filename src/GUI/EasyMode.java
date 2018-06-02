@@ -7,19 +7,15 @@ package GUI;
 
 import Domain.FastCharacter;
 import Methods.DrawingMethods;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -85,9 +81,10 @@ public class EasyMode extends Application implements Runnable {
         //llamamos a la clase que contiene los metodos de dibujo
         this.dm = new DrawingMethods();
 
-        this.fast = new FastCharacter(start, 40,10, 0);
+        this.fast = new FastCharacter(1 * size, (2 * size) - size, 10, 0);
+        this.fast.setMatrix(referenceMatrix);
         this.fast.start();
-        
+
         this.thread = new Thread(this);
         this.thread.start();
     }

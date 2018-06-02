@@ -5,6 +5,7 @@
  */
 package Domain;
 
+import Methods.DrawingMethods;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -20,6 +21,10 @@ public class FastCharacter extends Character {
 
     //atributos
     private int time;
+    private int start = 7;
+    private int exit = 8;
+    private int[][] matrix;
+    private DrawingMethods drawing;
     private ArrayList<Image> energy;
 
     //constructores
@@ -34,21 +39,22 @@ public class FastCharacter extends Character {
         }
     }
 
-    public FastCharacter(int time, ArrayList<Image> energy, int x, int y, int speed, int imageNum) {
+    public FastCharacter(int time, ArrayList<Image> energy, int[][] matrix, int x, int y, int speed, int imageNum) {
         super(x, y, speed, imageNum);
         this.time = time;
         this.energy = energy;
+        this.matrix = matrix;
         try {
             setSprite();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void setSprite() throws FileNotFoundException{
+
+    public void setSprite() throws FileNotFoundException {
         ArrayList<Image> sprite = super.getSprite();
         for (int i = 0; i < 3; i++) {
-            sprite.add(new Image(new FileInputStream("assets/piD" + (i+1) + ".png")));
+            sprite.add(new Image(new FileInputStream("assets/piD" + (i + 1) + ".png")));
         }
         super.setSprite(sprite);
     }
@@ -70,11 +76,20 @@ public class FastCharacter extends Character {
         this.energy = energy;
     }
 
+    public int[][] getMatrix() {
+        return matrix;
+    }
+
+    public void setMatrix(int[][] matrix) {
+        this.matrix = matrix;
+    }
+
     @Override
     public void run() {
         ArrayList<Image> sprite = super.getSprite();
         int i = this.getX();
         int j = this.getY();
+        
         this.setY(j);
         for (int count = 0;; count++) {
             if (count == 3) {
@@ -93,4 +108,11 @@ public class FastCharacter extends Character {
             }
         }
     }
+
+    //Metodos random
+    public double randomCoord() {
+        double coord = Math.random() * 4;
+        return coord;
+    }//randomCoordX
+
 }

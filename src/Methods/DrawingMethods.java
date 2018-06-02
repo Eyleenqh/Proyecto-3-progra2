@@ -20,6 +20,7 @@ public class DrawingMethods {
     private Image path;
     private Image finish;
     private Image character;
+    private int[][] matriz;
 
     public DrawingMethods() throws FileNotFoundException {
         this.wall = new Image(new FileInputStream("assets/wall.jpg"));
@@ -29,6 +30,7 @@ public class DrawingMethods {
     }
 
     public void drawMaze(GraphicsContext gc, int referenceMatrix[][], int exit, int start, int size) {
+        this.matriz = referenceMatrix;
         gc.clearRect(0, 0, 1920, 1080);
         for (int i = 0; i < referenceMatrix.length; i++) {
             for (int j = 0; j < referenceMatrix.length; j++) {
@@ -51,16 +53,24 @@ public class DrawingMethods {
             }
         }
     }
-    
+
     //Metodo que agrega y quita paredes del laberinto
     public void removeOrAdd(GraphicsContext gc, int x, int y, int referenceMatrix[][], int exit, int start, int size) {
-        if (referenceMatrix[y / 50][x / 50] == 1) {
-            referenceMatrix[y / 50][x / 50] = 0;
+        if (referenceMatrix[y / size][x / size] == 1) {
+            referenceMatrix[y / size][x / size] = 0;
         } else {
-            if (referenceMatrix[y / 50][x / 50] == 0) {
-                referenceMatrix[y / 50][x / 50] = 1;
+            if (referenceMatrix[y / size][x / size] == 0) {
+                referenceMatrix[y / size][x / size] = 1;
             }
         }
         this.drawMaze(gc, referenceMatrix, exit, start, size);
+    }
+
+    public int[][] getMatrix() {
+        return this.matriz;
+    }
+
+    public void setMatriz(int[][] matriz) {
+        this.matriz = matriz;
     }
 }

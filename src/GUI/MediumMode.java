@@ -5,12 +5,16 @@
  */
 package GUI;
 
+import Domain.FastCharacter;
 import Methods.DrawingMethods;
 import java.io.FileNotFoundException;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -18,7 +22,7 @@ import javafx.stage.Stage;
  *
  * @author Eyleen
  */
-public class MediumMode extends Application {
+public class MediumMode extends Application implements Runnable {
 
     private Pane pane;
     private Canvas canvas;
@@ -70,6 +74,8 @@ public class MediumMode extends Application {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
     ;
+    private Thread thread;
+    private FastCharacter fast;
 
     @Override
 
@@ -80,6 +86,7 @@ public class MediumMode extends Application {
         //creamos los componentes de la ventana
         this.pane = new Pane();
         this.canvas = new Canvas(primaryStage.getWidth(), primaryStage.getHeight());
+        this.canvas.setOnMouseClicked(mouseClick);
         this.pane.getChildren().add(this.canvas);
         this.gc = canvas.getGraphicsContext2D();
 
@@ -94,12 +101,54 @@ public class MediumMode extends Application {
 
         //llamamos a la clase que contiene los metodos de dibujo
         this.dm = new DrawingMethods();
-        //dibujamos
-        this.draw(gc);
+
+        this.fast = new FastCharacter(1 * size, (28 * size) - size, 10, 0);
+        this.fast.setMatrix(referenceMatrix);
+        this.fast.start();
+
+        this.thread = new Thread(this);
+        this.thread.start();
+
     }
 
     //metodo draw
     public void draw(GraphicsContext gc) {
         dm.drawMaze(gc, referenceMatrix, exit, start, size);
+        gc.drawImage(this.fast.getImage(), this.fast.getX(), this.fast.getY(), 18, 18);
+    }
+
+    //Evento del mouse que permite seleccionar una bloque
+    EventHandler<MouseEvent> mouseClick = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent e) {
+            //obtiene las coordenadas de donde se activo el evento y tamanio en pixeles ingresado por el usuario
+            int x = (int) e.getX();
+            int y = (int) e.getY();
+            if (e.getButton() == MouseButton.PRIMARY) {
+                dm.removeOrAdd(gc, x, y, referenceMatrix, exit, start, size);
+            }
+        }
+    };
+
+    @Override
+    public void run() {
+        long start;
+        long elapsed;
+        long wait;
+        int fps = 30;
+        long time = 1000 / fps;
+
+        while (true) {
+            try {
+                start = System.nanoTime();
+                elapsed = System.nanoTime() - start;
+                wait = time - elapsed / 1000000;
+                Thread.sleep(wait);
+                GraphicsContext gc = this.canvas.getGraphicsContext2D();
+                //dibujamos
+                this.draw(gc);
+            } catch (InterruptedException ex) {
+            }
+        }
     }
 }
