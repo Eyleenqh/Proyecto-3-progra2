@@ -102,7 +102,7 @@ public class MediumMode extends Application implements Runnable {
         //llamamos a la clase que contiene los metodos de dibujo
         this.dm = new DrawingMethods();
 
-        this.fast = new FastCharacter(0, (28 * this.size) - this.size, 10, 0);
+        //this.fast = new FastCharacter(0, (28 * this.size) - this.size, 10, 0);
         this.fast.setMatrix(referenceMatrix);
         this.fast.start();
 

@@ -55,7 +55,7 @@ public class HardMode extends Application implements Runnable {
         //llamamos a la clase que contiene los metodos de dibujo
         this.dm = new DrawingMethods();
 
-        this.fast = new FastCharacter(0, (27 * size) - size, 10, 0);
+        //this.fast = new FastCharacter(0, (27 * size) - size, 10, 0);
         this.fast.setMatrix(referenceMatrix);
         this.fast.start();
 

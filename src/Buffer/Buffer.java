@@ -11,6 +11,6 @@ package Buffer;
  */
 public interface Buffer {
     
-    public void move();
+    public boolean move(int direction, int[][] matrix, int x, int y);
     
 }

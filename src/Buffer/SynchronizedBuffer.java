@@ -15,9 +15,36 @@ public class SynchronizedBuffer implements Buffer {
     private int occupiedBufferCount = 0; // count of occupied buffers
 
     @Override
-    public void move() {
-        
+    public synchronized boolean move(int direction, int[][] matrix, int x, int y) {
+        if(direction==1){
+            if (matrix[y / 30][(x / 30) + 1] == 1) {
+                return false;
+            }else{
+                return true;
+            }
+        }
+        if(direction==2){
+            if (matrix[y / 30][(x / 30)] == 1){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        if(direction==3){
+            if(matrix[(y / 30) + 1][(x / 30)] == 1){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        if(direction==4){
+            if(matrix[(y / 30)][(x / 30)] == 1){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        return true;
+    }
 
-    } // end class SynchronizedBuffer
-
-}
+} // end class SynchronizedBuffer

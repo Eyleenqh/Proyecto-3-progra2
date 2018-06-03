@@ -5,6 +5,7 @@
  */
 package Domain;
 
+import Buffer.Buffer;
 import Methods.DrawingMethods;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,14 +21,16 @@ import javafx.scene.image.Image;
 public class FastCharacter extends Character {
 
     //atributos
+    private Buffer sharedBuffer;
     private int time;
     private int[][] matrix;
     private DrawingMethods drawing;
     private ArrayList<Image> energy;
 
     //constructores
-    public FastCharacter(int x, int y, int speed, int imageNum) {
+    public FastCharacter(int x, int y, int speed, int imageNum, Buffer shared) {
         super(x, y, speed, imageNum);
+        this.sharedBuffer = shared;
         this.time = 0;
         this.energy = null;
         try {
@@ -85,29 +88,8 @@ public class FastCharacter extends Character {
     @Override
     public void run() {
         while (true) {
-                this.right();
+            this.right();
         }
-        /*ArrayList<Image> sprite = super.getSprite();
-        int j = this.getX()/10;
-        int i = this.getY();
-        
-        //this.setX(j);
-        for (int count = 0;; count++) {
-            if (count == 3) {
-                count = 0;
-            }
-            if(this.matrix[this.getY()/30][(this.getX()/30)+1]==1){
-                down();
-            }
-            super.setImage(sprite.get(count));
-            super.setX(j * 10);
-            j++;
-            try {
-                Thread.sleep(80);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }*/
     }
 
     //Metodos random
@@ -126,7 +108,16 @@ public class FastCharacter extends Character {
             if (count == 3) {
                 count = 0;
             }
-            if (this.matrix[this.getY() / 30][(this.getX() / 30) + 1] == 1) {
+            if (this.sharedBuffer.move(1, matrix, this.getX(), this.getY())) {
+                super.setImage(sprite.get(count));
+                super.setX(j * 10);
+                j++;
+                try {
+                    Thread.sleep(80);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
                 int m = (int) randomCoord();
                 if (m == 1) {
                     this.up();
@@ -137,14 +128,6 @@ public class FastCharacter extends Character {
                 if (m == 3) {
                     this.right();
                 }
-            }
-            super.setImage(sprite.get(count));
-            super.setX(j * 10);
-            j++;
-            try {
-                Thread.sleep(80);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -159,7 +142,16 @@ public class FastCharacter extends Character {
             if (count == 3) {
                 count = 0;
             }
-            if (this.matrix[this.getY() / 30][(this.getX() / 30)-1] == 1) {
+            if (this.sharedBuffer.move(2, matrix, this.getX(), this.getY())) {
+                super.setImage(sprite.get(count));
+                super.setX(j * 10);
+                j--;
+                try {
+                    Thread.sleep(80);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
                 int m = (int) randomCoord();
                 if (m == 1) {
                     this.up();
@@ -170,15 +162,6 @@ public class FastCharacter extends Character {
                 if (m == 3) {
                     this.left();
                 }
-                
-            }
-            super.setImage(sprite.get(count));
-            super.setX(j * 10);
-            j--;
-            try {
-                Thread.sleep(80);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -192,7 +175,16 @@ public class FastCharacter extends Character {
             if (count == 3) {
                 count = 0;
             }
-            if (this.matrix[(this.getY() / 30) + 1][(this.getX() / 30)] == 1) {
+            if (this.sharedBuffer.move(3, matrix, this.getX(), this.getY())) {
+                super.setImage(sprite2.get(count));
+                super.setY(i * 10);
+                i++;
+                try {
+                    Thread.sleep(80);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
                 int m = (int) randomCoord();
                 if (m == 1) {
                     this.down();
@@ -203,14 +195,6 @@ public class FastCharacter extends Character {
                 if (m == 3) {
                     this.left();
                 }
-            }
-            super.setImage(sprite2.get(count));
-            super.setY(i * 10);
-            i++;
-            try {
-                Thread.sleep(80);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -224,7 +208,16 @@ public class FastCharacter extends Character {
             if (count == 3) {
                 count = 0;
             }
-            if (this.matrix[(this.getY() / 30) - 1][(this.getX() / 30)] == 1) {
+            if (this.sharedBuffer.move(4, matrix, this.getX(), this.getY())) {
+                super.setImage(sprite2.get(count));
+                super.setY(i * 10);
+                i--;
+                try {
+                    Thread.sleep(80);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
                 int m = (int) randomCoord();
                 if (m == 1) {
                     this.up();
@@ -235,14 +228,6 @@ public class FastCharacter extends Character {
                 if (m == 3) {
                     this.left();
                 }
-            }
-            super.setImage(sprite2.get(count));
-            super.setY(i * 10);
-            i--;
-            try {
-                Thread.sleep(80);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
