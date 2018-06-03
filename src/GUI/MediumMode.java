@@ -102,7 +102,7 @@ public class MediumMode extends Application implements Runnable {
         //llamamos a la clase que contiene los metodos de dibujo
         this.dm = new DrawingMethods();
 
-        this.fast = new FastCharacter(1 * size, (28 * size) - size, 10, 0);
+        this.fast = new FastCharacter(0, (28 * this.size) - this.size, 10, 0);
         this.fast.setMatrix(referenceMatrix);
         this.fast.start();
 
@@ -113,8 +113,8 @@ public class MediumMode extends Application implements Runnable {
 
     //metodo draw
     public void draw(GraphicsContext gc) {
-        dm.drawMaze(gc, referenceMatrix, exit, start, size);
-        gc.drawImage(this.fast.getImage(), this.fast.getX(), this.fast.getY(), 18, 18);
+        dm.drawMaze(gc, this.referenceMatrix, this.exit, this.start, this.size);
+        gc.drawImage(this.fast.getImage(), this.fast.getX(), this.fast.getY(), size, size);
     }
 
     //Evento del mouse que permite seleccionar una bloque

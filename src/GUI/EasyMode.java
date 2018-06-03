@@ -30,7 +30,7 @@ public class EasyMode extends Application implements Runnable {
     private DrawingMethods dm;
     private int exit = 7;
     private int start = 8;
-    private int size = 50;
+    private int size = 30;
     private int referenceMatrix[][] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {start, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1},
     {1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1},
@@ -81,7 +81,7 @@ public class EasyMode extends Application implements Runnable {
         //llamamos a la clase que contiene los metodos de dibujo
         this.dm = new DrawingMethods();
 
-        this.fast = new FastCharacter(1 * size, (2 * size) - size, 10, 0);
+        this.fast = new FastCharacter(0, (2 * size) - size, 10, 0);
         this.fast.setMatrix(referenceMatrix);
         this.fast.start();
 
@@ -92,7 +92,7 @@ public class EasyMode extends Application implements Runnable {
     //metodo draw
     public void draw(GraphicsContext gc) {
         dm.drawMaze(gc, this.referenceMatrix, this.exit, this.start, this.size);
-        gc.drawImage(this.fast.getImage(), this.fast.getX(), this.fast.getY(), 50, 50);
+        gc.drawImage(this.fast.getImage(), this.fast.getX(), this.fast.getY(), size, size);
     }
 
     //Evento del mouse que permite seleecionar una bloque
