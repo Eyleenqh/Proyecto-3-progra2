@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import Buffer.SynchronizedBuffer;
 import Domain.FastCharacter;
 import Methods.DrawingMethods;
 import java.io.FileNotFoundException;
@@ -71,6 +72,7 @@ public class EasyMode extends Application implements Runnable {
 
     private Thread thread;
     private FastCharacter fast;
+    private SynchronizedBuffer syncBuff;
 
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
@@ -204,8 +206,10 @@ public class EasyMode extends Application implements Runnable {
         //Creamos la matriz inicial
         //llamamos a la clase que contiene los metodos de dibujo
         this.dm = new DrawingMethods();
-        this.fast = new FastCharacter(1 * size, (2 * size) - size, 10, 0);
-        this.fast = new FastCharacter(0, (2 * size) - size, 10, 0);
+        
+        this.syncBuff = new SynchronizedBuffer();
+
+        this.fast = new FastCharacter(0, (2 * size) - size, 10, 0, this.syncBuff);
         this.fast.setMatrix(referenceMatrix);
         this.fast.start();
 

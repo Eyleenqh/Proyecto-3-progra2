@@ -184,9 +184,9 @@ public class HardMode extends Application implements Runnable {
         //llamamos a la clase que contiene los metodos de dibujo
         this.dm = new DrawingMethods();
 
-        this.fast = new FastCharacter(0, (27 * size) - size, 10, 0);
-        this.fast.setMatrix(referenceMatrix);
-        this.fast.start();
+//        this.fast = new FastCharacter(0, (27 * size) - size, 10, 0);
+//        this.fast.setMatrix(referenceMatrix);
+//        this.fast.start();
         
         //Furious
         this.furious=new FuriousCharacter(0, (27 * size) - size, 10, 0);
@@ -200,7 +200,7 @@ public class HardMode extends Application implements Runnable {
     //metodo draw
     public void draw(GraphicsContext gc) {
         dm.drawMaze(gc, referenceMatrix, exit, start, size);
-        gc.drawImage(this.fast.getImage(), this.fast.getX(), this.fast.getY(), size, size);
+        //gc.drawImage(this.fast.getImage(), this.fast.getX(), this.fast.getY(), size, size);
         gc.drawImage(this.furious.getImage(), this.furious.getX(), this.furious.getY(), size, size);
     }
 

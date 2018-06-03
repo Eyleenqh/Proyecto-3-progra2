@@ -77,23 +77,37 @@ public class FuriousCharacter extends Character{
         
         while(true){
             try {
-                System.out.println(this.startPos[0]);
-                System.out.println(this.startPos[1]);
-                if(this.matriz[this.startPos[0]][this.startPos[1]+1]==1){
+                
+                if(this.direction==1 && this.rigth(startPos)){
                     super.setImage(this.sprite.get(num));
                     super.setX(super.getX()+13);
-//                    super.setY(super.getY()-13);
                     this.startPos[1]++;
-                    Thread.sleep(100);
+                    Thread.sleep(400); 
                 }else{
-                    this.direction= (int) (Math.random()*3);
-                    System.out.println(this.direction);
-                }
-                //coloca y controla la imagen
-//                super.setImage(this.sprite.get(num));
-//                super.setX(super.getX()+13);
-//                super.setY(super.getY()-13);
-//                Thread.sleep(100);
+                    if(this.direction==2 && this.up(startPos)){
+                        super.setImage(this.sprite.get(num));
+                        super.setY(super.getY()-13);
+                        this.startPos[0]++;
+                        Thread.sleep(400);
+                    }else{
+                        if(this.direction==3 && this.down(startPos)){
+                            super.setImage(this.sprite.get(num));
+                            super.setY(super.getY()+13);
+                            this.startPos[0]--;
+                            Thread.sleep(400);
+                        }else{
+                            if(this.direction==0 && this.left(startPos)){
+                                super.setImage(this.sprite.get(num));
+                                super.setX(super.getX()-13);
+                                this.startPos[1]--;
+                                Thread.sleep(400);
+                            }else{
+                                //this.direction=(int)(Math.random()*4);
+                            }//controla el movimiento hacia arriba
+                        }//controla el movimiento hacia abajo
+                    }//controla el movimiento hacia arriba
+                }//controla movimiento a la derecha
+                
                 if(num==2){
                     num=0;
                 }else{
@@ -107,9 +121,40 @@ public class FuriousCharacter extends Character{
         }
     }
     
-    private boolean up(){
-        
-        
+    //control de matriz para dar movimiento
+    private boolean up(int[] pos){
+        if(this.matriz[pos[0]+1][pos[1]]==0){
+            this.direction=2;
+            return true;
+        }
+        this.direction=(int)(Math.random()*4);
+        return false;
+    }
+    
+    private boolean down(int[] pos){
+        if(this.matriz[pos[0]-1][pos[1]]==0){
+            this.direction=3;
+            return true;
+        }
+        this.direction=(int)(Math.random()*4);
+        return false;
+    }
+    
+    private boolean rigth(int[] pos){
+        if(this.matriz[pos[0]][pos[1]+1]==0){
+            this.direction=1;
+            return true;
+        }
+        this.direction=(int)(Math.random()*4);
+        return false;
+    }
+    
+    private boolean left(int[] pos){
+        if(this.matriz[pos[0]][pos[1]-1]==0){
+            this.direction=0;
+            return true;
+        }
+        this.direction=(int)(Math.random()*4);
         return false;
     }
 }
