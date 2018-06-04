@@ -26,6 +26,7 @@ public class FastCharacter extends Character {
     private int[][] matrix;
     private DrawingMethods drawing;
     private ArrayList<Image> energy;
+    private int[] startPoint;
 
     //constructores
     public FastCharacter(int x, int y, int speed, int imageNum, Buffer shared) {
@@ -33,6 +34,7 @@ public class FastCharacter extends Character {
         this.sharedBuffer = shared;
         this.time = 0;
         this.energy = null;
+        this.startPoint = new int[2];
         try {
             setSprite();
         } catch (FileNotFoundException ex) {
@@ -83,6 +85,16 @@ public class FastCharacter extends Character {
 
     public void setMatrix(int[][] matrix) {
         this.matrix = matrix;
+        for (int i = 0; i < this.matrix.length; i++) {
+            for (int x = 0; x < matrix.length; x++) {
+                if (matrix[i][x] == 8) {
+                    this.startPoint[0] = i;//fila
+                    this.startPoint[1] = x;//columna
+                    /*super.setX(x*13);
+                    super.setY(i*13);*/
+                }
+            }
+        }
     }
 
     @Override
@@ -103,15 +115,16 @@ public class FastCharacter extends Character {
         int j = this.getX() / 10;
         int i = this.getY();
 
-        //this.setX(j);
         for (int count = 0;; count++) {
-            if (count == 3) {
-                count = 0;
-            }
-            if (this.sharedBuffer.move(1, matrix, this.getX(), this.getY())) {
+            if (this.sharedBuffer.move(1, this.matrix, this.startPoint)) {
+                if (count == 2) {
+                    this.startPoint[1]++;
+                }
+                if (count == 3) {
+                    count = 0;
+                }
                 super.setImage(sprite.get(count));
-                super.setX(j * 10);
-                j++;
+                super.setX(super.getX() + 10);
                 try {
                     Thread.sleep(80);
                 } catch (InterruptedException ex) {
@@ -139,13 +152,15 @@ public class FastCharacter extends Character {
 
         //this.setX(j);
         for (int count = 0;; count++) {
-            if (count == 3) {
-                count = 0;
-            }
-            if (this.sharedBuffer.move(2, matrix, this.getX(), this.getY())) {
+            if (this.sharedBuffer.move(2, this.matrix, this.startPoint)) {
+                if (count == 2) {
+                    this.startPoint[1]--;
+                }
+                if (count == 3) {
+                    count = 0;
+                }
                 super.setImage(sprite.get(count));
-                super.setX(j * 10);
-                j--;
+                super.setX(super.getX()-10);
                 try {
                     Thread.sleep(80);
                 } catch (InterruptedException ex) {
@@ -172,13 +187,15 @@ public class FastCharacter extends Character {
         int i = this.getY() / 10;
 
         for (int count = 0;; count++) {
-            if (count == 3) {
-                count = 0;
-            }
-            if (this.sharedBuffer.move(3, matrix, this.getX(), this.getY())) {
+            if (this.sharedBuffer.move(3, this.matrix, this.startPoint)) {
+                if (count == 2) {
+                    this.startPoint[0]++;
+                }
+                if (count == 3) {
+                    count = 0;
+                }
                 super.setImage(sprite2.get(count));
-                super.setY(i * 10);
-                i++;
+                super.setY(super.getY()+10);
                 try {
                     Thread.sleep(80);
                 } catch (InterruptedException ex) {
@@ -205,13 +222,15 @@ public class FastCharacter extends Character {
         int i = this.getY() / 10;
 
         for (int count = 0;; count++) {
-            if (count == 3) {
-                count = 0;
-            }
-            if (this.sharedBuffer.move(4, matrix, this.getX(), this.getY())) {
+            if (this.sharedBuffer.move(4, this.matrix, this.startPoint)) {
+                if (count == 2) {
+                    this.startPoint[0]--;
+                }
+                if (count == 3) {
+                    count = 0;
+                }
                 super.setImage(sprite2.get(count));
-                super.setY(i * 10);
-                i--;
+                super.setY(super.getY()-10);
                 try {
                     Thread.sleep(80);
                 } catch (InterruptedException ex) {

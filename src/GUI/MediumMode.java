@@ -13,13 +13,8 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -29,17 +24,6 @@ import javafx.stage.Stage;
  */
 public class MediumMode extends Application implements Runnable {
 
-    //
-    private Label general, smartLbl, fastLbl, furiousLbl;
-    private TextField smartTfd, fastTfd, furiousTfd;
-    private Button btnStart, btnPause, btnStop, btnSetI;
-    private GridPane grid;
-    private HBox hbox;
-    private int smartQ;
-    private int fastQ;
-    private int furiousQ;
-    private int set=0;
-    //
     private Pane pane;
     private Canvas canvas;
     private GraphicsContext gc;
@@ -99,127 +83,15 @@ public class MediumMode extends Application implements Runnable {
         primaryStage.setTitle("Medium Mode");
         primaryStage.setResizable(false);
         primaryStage.setMaximized(true);
-        
-        //
-        this.hbox=new HBox();
-        this.grid=new GridPane();
-        this.general=new Label("Choose how much characters do you want.");
-        this.smartLbl=new Label("Smart");
-        this.smartTfd=new TextField();
-        this.fastLbl=new Label("Fast");
-        this.fastTfd=new TextField();
-        this.furiousLbl=new Label("Furious");
-        this.furiousTfd=new TextField();
-        this.btnSetI=new Button("Set characters");
-        this.btnStart=new Button("Start run");
-        this.btnStart.setDisable(true);
-        this.btnPause=new Button("Pause run");
-        this.btnPause.setDisable(true);
-        this.btnStop=new Button("Stop run");
-        this.btnStop.setDisable(true);
-        //
         //creamos los componentes de la ventana
         this.pane = new Pane();
         this.canvas = new Canvas(primaryStage.getWidth(), primaryStage.getHeight());
         this.canvas.setOnMouseClicked(mouseClick);
         this.pane.getChildren().add(this.canvas);
         this.gc = canvas.getGraphicsContext2D();
-        
-        //
-        this.grid.setVgap(10);
-        this.grid.setHgap(17);
-        this.grid.add(this.general, 0, 0);
-        this.grid.add(this.smartLbl, 0, 1);
-        this.grid.add(this.smartTfd, 0, 2);
-        this.grid.add(this.fastLbl, 0, 3);
-        this.grid.add(this.fastTfd, 0, 4);
-        this.grid.add(this.furiousLbl, 0, 5);
-        this.grid.add(this.furiousTfd, 0, 6);
-        this.grid.add(this.btnSetI, 1, 1);
-        this.grid.add(this.btnStart, 1, 2);
-        this.grid.add(this.btnPause, 1, 3);
-        this.grid.add(this.btnStop, 1, 4);
-        
-        this.hbox.setSpacing(10);
-        this.hbox.getChildren().addAll(this.pane, this.grid);
-        
-        //acciones de los botones
-        //acciones de los botones
-        this.btnSetI.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            
-            @Override
-            public void handle(MouseEvent t) {
-                //cantidad de caracteres
-                //comprobamos que los textFild estén llenos o al menos 1
-                if(set==0){
-                    if(smartTfd.getText().equals("") && 
-                            fastTfd.getText().equals("") && 
-                            furiousTfd.getText().equals("")){
-                        general.setText("Insert at least one character");
-                        set=0;
-                    }else{
-                        set=1;
-                        btnStart.setDisable(false);
-                        btnPause.setDisable(false);
-                        btnStop.setDisable(false);
-
-                        if(!smartTfd.getText().equals("")){
-                            try{
-                                setQ(1, Integer.parseInt(smartTfd.getText()));
-                            }catch(Exception e){
-                                general.setText("Insert correct information");
-                                set=0;
-                                btnStart.setDisable(true);
-                                btnPause.setDisable(true);
-                                btnStop.setDisable(true);
-                            }
-                        }else{
-                            setQ(1, 0);
-                        }//if para definir la cantidad de caracteres
-
-                        if(!fastTfd.getText().equals("")){
-                            try{
-                                setQ(2, Integer.parseInt(fastTfd.getText()));
-                            }catch(Exception e){
-                                general.setText("Insert correct information");
-                                set=0;
-                                btnStart.setDisable(true);
-                                btnPause.setDisable(true);
-                                btnStop.setDisable(true);
-                            }
-                        }else{
-                            setQ(2, 0);
-                        }// if para definir la cantidad de caracteres
-
-                        if(!furiousTfd.getText().equals("")){
-                            try{
-                                setQ(3, Integer.parseInt(furiousTfd.getText()));
-                            }catch(Exception e){
-                                general.setText("Insert correct information");
-                                set=0;
-                                btnStart.setDisable(true);
-                                btnPause.setDisable(true);
-                                btnStop.setDisable(true);
-                            }
-                        }else{
-                            setQ(3, 0);
-                        }//if para definir la cantidad de caracteres
-                    }
-                    smartTfd.setText("");
-                    fastTfd.setText("");
-                    furiousTfd.setText("");
-                }else{
-                    btnSetI.setDisable(true);
-                    btnStart.setDisable(false);
-                    btnPause.setDisable(false);
-                    btnStop.setDisable(false);
-                }
-            }
-        });
-        //
 
         //creamos la escena
-        Scene scene = new Scene(this.hbox, primaryStage.getWidth(), primaryStage.getMinHeight());
+        Scene scene = new Scene(this.pane, primaryStage.getWidth(), primaryStage.getMinHeight());
         primaryStage.setScene(scene);
         primaryStage.show();
         /*//centramos la escena en la pantalla
@@ -257,18 +129,6 @@ public class MediumMode extends Application implements Runnable {
             }
         }
     };
-    
-    public void setQ(int quantity, int num){
-        if(quantity==1){
-            this.smartQ=num;
-        }
-        if(quantity==2){
-            this.fastQ=num;
-        }
-        if(quantity==3){
-            this.furiousQ=num;
-        }
-    }
 
     @Override
     public void run() {

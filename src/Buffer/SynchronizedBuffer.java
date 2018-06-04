@@ -15,30 +15,30 @@ public class SynchronizedBuffer implements Buffer {
     private int occupiedBufferCount = 0; // count of occupied buffers
 
     @Override
-    public synchronized boolean move(int direction, int[][] matrix, int x, int y) {
+    public synchronized boolean move(int direction, int[][] matrix, int[] startPoint) {
         if(direction==1){
-            if (matrix[y / 30][(x / 30) + 1] == 1) {
+            if (matrix[startPoint[0]][startPoint[1]+1] == 1) {
                 return false;
             }else{
                 return true;
             }
         }
         if(direction==2){
-            if (matrix[y / 30][(x / 30)] == 1){
+            if (matrix[startPoint[0]][startPoint[1]-1] == 1){
                 return false;
             }else{
                 return true;
             }
         }
         if(direction==3){
-            if(matrix[(y / 30) + 1][(x / 30)] == 1){
+            if(matrix[startPoint[0]+1][startPoint[1]] == 1){
                 return false;
             }else{
                 return true;
             }
         }
         if(direction==4){
-            if(matrix[(y / 30)][(x / 30)] == 1){
+            if(matrix[startPoint[0]-1][startPoint[1]] == 1){
                 return false;
             }else{
                 return true;
