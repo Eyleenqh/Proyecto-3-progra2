@@ -17,31 +17,31 @@ public class SynchronizedBuffer implements Buffer {
     @Override
     public synchronized boolean move(int direction, int[][] matrix, int[] startPoint) {
         if(direction==1){
-            if (matrix[startPoint[0]][startPoint[1]+1] == 1) {
-                return false;
-            }else{
+            if (matrix[startPoint[0]][startPoint[1]+1] == 0) {
                 return true;
+            }else{
+                return false;
             }
         }
         if(direction==2){
-            if (matrix[startPoint[0]][startPoint[1]-1] == 1){
-                return false;
-            }else{
+            if (matrix[startPoint[0]][startPoint[1]-1] == 0){
                 return true;
+            }else{
+                return false;
             }
         }
         if(direction==3){
-            if(matrix[startPoint[0]+1][startPoint[1]] == 1){
-                return false;
-            }else{
+            if(matrix[startPoint[0]+1][startPoint[1]] == 0){
                 return true;
+            }else{
+                return false;
             }
         }
         if(direction==4){
-            if(matrix[startPoint[0]-1][startPoint[1]] == 1){
-                return false;
-            }else{
+            if(matrix[startPoint[0]-1][startPoint[1]] == 0){
                 return true;
+            }else{
+                return false;
             }
         }
         return true;

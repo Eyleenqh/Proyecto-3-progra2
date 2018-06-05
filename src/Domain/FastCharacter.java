@@ -57,7 +57,7 @@ public class FastCharacter extends Character {
     public void setSprite() throws FileNotFoundException {
         ArrayList<Image> sprite = super.getSprite();
         for (int i = 0; i < 3; i++) {
-            sprite.add(new Image(new FileInputStream("assets/piD" + (i + 1) + ".png")));
+            sprite.add(new Image(new FileInputStream("assets/paD" + (i + 1) + ".png")));
         }
         super.setSprite(sprite);
     }
