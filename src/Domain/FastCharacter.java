@@ -27,11 +27,13 @@ public class FastCharacter extends Character {
     private DrawingMethods drawing;
     private ArrayList<Image> energy;
     private int[] startPoint;
+    private int size;
 
     //constructores
-    public FastCharacter(int x, int y, int speed, int imageNum, Buffer shared) {
+    public FastCharacter(int x, int y, int size, int speed, int imageNum, Buffer shared) {
         super(x, y, speed, imageNum);
         this.sharedBuffer = shared;
+        this.size=size;
         this.time = 0;
         this.energy = null;
         this.startPoint = new int[2];
@@ -90,8 +92,8 @@ public class FastCharacter extends Character {
                 if (matrix[i][x] == 8) {
                     this.startPoint[0] = i;//fila
                     this.startPoint[1] = x;//columna
-                    /*super.setX(x*13);
-                    super.setY(i*13);*/
+                    super.setX(x*this.size);
+                    super.setY(i*this.size);
                 }
             }
         }
@@ -124,7 +126,7 @@ public class FastCharacter extends Character {
                     count = 0;
                 }
                 super.setImage(sprite.get(count));
-                super.setX(super.getX() + 10);
+                super.setX(super.getX() + this.size/3);
                 try {
                     Thread.sleep(80);
                 } catch (InterruptedException ex) {
@@ -160,7 +162,7 @@ public class FastCharacter extends Character {
                     count = 0;
                 }
                 super.setImage(sprite.get(count));
-                super.setX(super.getX()-10);
+                super.setX(super.getX()-this.size/3);
                 try {
                     Thread.sleep(80);
                 } catch (InterruptedException ex) {
@@ -195,7 +197,7 @@ public class FastCharacter extends Character {
                     count = 0;
                 }
                 super.setImage(sprite2.get(count));
-                super.setY(super.getY()+10);
+                super.setY(super.getY()+this.size/3);
                 try {
                     Thread.sleep(80);
                 } catch (InterruptedException ex) {
@@ -230,7 +232,7 @@ public class FastCharacter extends Character {
                     count = 0;
                 }
                 super.setImage(sprite2.get(count));
-                super.setY(super.getY()-10);
+                super.setY(super.getY()-this.size/3);
                 try {
                     Thread.sleep(80);
                 } catch (InterruptedException ex) {

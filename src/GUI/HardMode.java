@@ -60,7 +60,7 @@ public class HardMode extends Application implements Runnable {
     private DrawingMethods dm;
     private int exit = 7;
     private int start = 8;
-    private int size = 25;
+    private int size = 24;
     private int referenceMatrix[][] = dibujaMatriz();
     private Thread thread;
     private SynchronizedBuffer syncBuff;
@@ -68,7 +68,7 @@ public class HardMode extends Application implements Runnable {
     private FastCharacter[] fast;
     private SmartCharacter[] smart;
     private Item[] items;
-    private boolean startRun=false;
+    private boolean startRun=false, drawIt=true;
     private String[] name;
 
     @Override
@@ -115,7 +115,7 @@ public class HardMode extends Application implements Runnable {
         
         //creamos los componentes de la ventana
         this.pane = new Pane();
-        this.canvas = new Canvas(675, 675);
+        this.canvas = new Canvas(648, 648);
         this.pane.getChildren().add(this.canvas);
         this.gc = canvas.getGraphicsContext2D();
         
@@ -325,8 +325,33 @@ public class HardMode extends Application implements Runnable {
                     }
                 }
                 startRun=true;
+                drawIt=true;
                 btnStart.setDisable(true);
                 btnSetI.setDisable(true);
+            }
+        });
+        
+        this.btnPause.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent t) {
+                if(startRun){
+                    startRun=false;
+                    drawIt=false;
+                    btnPause.setText("Restart Run");
+                }else{
+                    startRun=true;
+                    drawIt=true;
+                    btnPause.setText("Pause Run");
+                }
+            }
+        });
+        
+        this.btnStop.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent t) {
+                thread.stop();
             }
         });
         //
@@ -355,6 +380,13 @@ public class HardMode extends Application implements Runnable {
                     gc.drawImage(this.arrayFurious.get(i).getImage(),
                             this.arrayFurious.get(i).getX(), this.arrayFurious.get(i).getY(),
                             size, size);
+                    for(int x=0; x<this.itemsQ; x++){
+                        if(this.arrayItem.get(x).getX()==this.arrayFurious.get(i).getX() && 
+                                this.arrayItem.get(x).getX()==this.arrayFurious.get(i).getY()){
+                            this.arrayItem.remove(x);
+                        }
+                    }
+                    
                 }
             }
             
@@ -384,6 +416,14 @@ public class HardMode extends Application implements Runnable {
                             size, size);
                 }
             }
+        }else{
+            if(this.itemsQ>0){
+                for(int i=0; i<itemsQ; i++){
+                    gc.drawImage(this.arrayItem.get(i).getImage(),
+                            this.arrayItem.get(i).getX(), this.arrayItem.get(i).getY(),
+                            size, size);
+                }
+            }
         }
     }
 
@@ -404,13 +444,19 @@ public class HardMode extends Application implements Runnable {
         if(quantity==1){
             this.smartQ=num;
             this.arraySmart=new ArrayList<SmartCharacter>(this.smartQ);
+            this.smart=new SmartCharacter[this.smartQ];
+            for(int i=0; i<this.smartQ; i++){
+                this.smart[i]=new SmartCharacter(0, (27 * size) - size, this.size, 10, 0, this.syncBuff);
+                this.smart[i].setMatrix(this.referenceMatrix, this.start);
+                this.arraySmart.add(this.smart[i]);
+            }
         }
         if(quantity==2){
             this.fastQ=num;
             this.arrayFast=new ArrayList<FastCharacter>(this.fastQ);
             this.fast=new FastCharacter[this.fastQ];
             for(int i=0; i<this.fastQ; i++){
-                this.fast[i]=new FastCharacter(0, (27 * size) - size, 10, 0, this.syncBuff);
+                this.fast[i]=new FastCharacter(0, (27 * size) - size, this.size, 10, 0, this.syncBuff);
                 this.fast[i].setMatrix(this.referenceMatrix);
                 this.arrayFast.add(this.fast[i]);
             }
@@ -422,7 +468,6 @@ public class HardMode extends Application implements Runnable {
             for(int i=0; i<this.furiousQ; i++){
                 this.furious[i]=new FuriousCharacter(0, (27 * size) - size, this.size, 10, 0, this.syncBuff);
                 this.furious[i].setMatrix(this.referenceMatrix, this.start);
-                this.furious[i].setNames(this.name +" "+i);
                 this.arrayFurious.add(this.furious[i]);
             }
         }
@@ -464,6 +509,18 @@ public class HardMode extends Application implements Runnable {
         while (true) {
             System.out.println();
             while(this.startRun){   
+                try {
+                    start = System.nanoTime();
+                    elapsed = System.nanoTime() - start;
+                    wait = time - elapsed / 1000000;
+                    Thread.sleep(wait);
+                    GraphicsContext gc = this.canvas.getGraphicsContext2D();
+                    //dibujamos
+                    this.draw(gc);
+                }catch (InterruptedException ex) {
+                }
+            }
+            if(!this.drawIt && this.itemsQ>0){
                 try {
                     start = System.nanoTime();
                     elapsed = System.nanoTime() - start;

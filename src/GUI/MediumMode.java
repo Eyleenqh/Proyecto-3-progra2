@@ -107,7 +107,7 @@ public class MediumMode extends Application implements Runnable {
     private FastCharacter[] fast;
     private SmartCharacter[] smart;
     private Item[] items;
-    private boolean startRun=false;
+    private boolean startRun=false, drawIt=true;
     private String[] name;
     //
 
@@ -363,8 +363,33 @@ public class MediumMode extends Application implements Runnable {
                     }
                 }
                 startRun=true;
+                drawIt=true;
                 btnStart.setDisable(true);
                 btnSetI.setDisable(true);
+            }
+        });
+        
+        this.btnPause.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent t) {
+                if(startRun){
+                    startRun=false;
+                    drawIt=false;
+                    btnPause.setText("Restart Run");
+                }else{
+                    startRun=true;
+                    drawIt=true;
+                    btnPause.setText("Pause Run");
+                }
+            }
+        });
+        
+        this.btnStop.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent t) {
+                thread.stop();
             }
         });
         
@@ -444,13 +469,19 @@ public class MediumMode extends Application implements Runnable {
         if(quantity==1){
             this.smartQ=num;
             this.arraySmart=new ArrayList<SmartCharacter>(this.smartQ);
+            this.smart=new SmartCharacter[this.smartQ];
+            for(int i=0; i<this.smartQ; i++){
+                this.smart[i]=new SmartCharacter(0, (27 * size) - size, this.size, 10, 0, this.syncBuff);
+                this.smart[i].setMatrix(this.referenceMatrix, this.start);
+                this.arraySmart.add(this.smart[i]);
+            }
         }
         if(quantity==2){
             this.fastQ=num;
             this.arrayFast=new ArrayList<FastCharacter>(this.fastQ);
             this.fast=new FastCharacter[this.fastQ];
             for(int i=0; i<this.fastQ; i++){
-                this.fast[i]=new FastCharacter(0, (27 * size) - size, 10, 0, this.syncBuff);
+                this.fast[i]=new FastCharacter(0, (27 * size) - size, this.size, 10, 0, this.syncBuff);
                 this.fast[i].setMatrix(this.referenceMatrix);
                 this.arrayFast.add(this.fast[i]);
             }
@@ -462,7 +493,6 @@ public class MediumMode extends Application implements Runnable {
             for(int i=0; i<this.furiousQ; i++){
                 this.furious[i]=new FuriousCharacter(0, (27 * size) - size, this.size, 10, 0, this.syncBuff);
                 this.furious[i].setMatrix(this.referenceMatrix, this.start);
-                this.furious[i].setNames(this.name +" "+i);
                 this.arrayFurious.add(this.furious[i]);
             }
         }
@@ -505,6 +535,18 @@ public class MediumMode extends Application implements Runnable {
         while (true) {
             System.out.println();
             while(this.startRun){   
+                try {
+                    start = System.nanoTime();
+                    elapsed = System.nanoTime() - start;
+                    wait = time - elapsed / 1000000;
+                    Thread.sleep(wait);
+                    GraphicsContext gc = this.canvas.getGraphicsContext2D();
+                    //dibujamos
+                    this.draw(gc);
+                }catch (InterruptedException ex) {
+                }
+            }
+            if(!this.drawIt && this.itemsQ>0){
                 try {
                     start = System.nanoTime();
                     elapsed = System.nanoTime() - start;

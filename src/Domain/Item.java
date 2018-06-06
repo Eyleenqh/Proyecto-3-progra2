@@ -64,18 +64,28 @@ public class Item extends Character{
     public void setMatrix(int[][] matrix, int typeMove) {
         this.matrix = matrix;
         this.typeMovement=typeMove;
-        this.startPoint[0]= (int) (Math.random()*(this.matrix.length/2));
-        this.startPoint[1]= (int) (Math.random()*(this.matrix.length/2));
+        this.startPoint[0]= (int) (Math.random()*(this.matrix.length));//fila
+        this.startPoint[1]= (int) (Math.random()*(this.matrix.length));//columna
+        
+        if(this.matrix[this.startPoint[0]][this.startPoint[1]]==0){
+            this.setMatrix(this.matrix, this.typeMovement);
+        }
     }
 
     @Override
     public void run() {
-        if(this.typeMovement==1){
+        if(this.typeMovement==1 && (this.matrix[this.startPoint[0]][this.startPoint[1]+1]==0 ||
+                this.matrix[this.startPoint[0]][this.startPoint[1]-1]==0)){
             this.rigth();
-            this.left();
         }else{
             this.up();
-            this.down();
+        }
+        
+        if(this.typeMovement==2 && (this.matrix[this.startPoint[0]-1][this.startPoint[1]]==0 ||
+                this.matrix[this.startPoint[0]+1][this.startPoint[1]]==0)){
+            this.up();
+        }else{
+            this.rigth();
         }
     }
     
@@ -89,7 +99,7 @@ public class Item extends Character{
             this.startPoint[0]--;
             super.setY(this.startPoint[0] * this.size);
             try {
-                Thread.sleep(100);
+                Thread.sleep(200);
             } catch (InterruptedException ex) {
                 Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -112,7 +122,7 @@ public class Item extends Character{
             this.startPoint[0]++;
             super.setY(this.startPoint[0] * this.size);
             try {
-                Thread.sleep(100);
+                Thread.sleep(200);
             } catch (InterruptedException ex) {
                 Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -135,7 +145,7 @@ public class Item extends Character{
             this.startPoint[1]++;
             super.setX(this.startPoint[1] * this.size);
             try {
-                Thread.sleep(100);
+                Thread.sleep(200);
             } catch (InterruptedException ex) {
                 Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -158,7 +168,7 @@ public class Item extends Character{
             this.startPoint[1]--;
             super.setX(this.startPoint[1] * this.size);
             try {
-                Thread.sleep(100);
+                Thread.sleep(200);
             } catch (InterruptedException ex) {
                 Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
             }
