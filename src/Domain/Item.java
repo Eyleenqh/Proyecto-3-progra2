@@ -40,19 +40,6 @@ public class Item extends Character{
         setSprite();
     }
     
-    public Item(int time, int size, ArrayList<Image> energy, int[][] matrix, int x, int y, int speed, int imageNum) {
-        super(x, y, speed, imageNum);
-        this.time = time;
-        this.energy = energy;
-        this.matrix = matrix;
-        this.size=size;
-        try {
-            setSprite();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
     public void setSprite() throws FileNotFoundException {
         ArrayList<Image> sprite = super.getSprite();
         for (int i = 0; i < 2; i++) {
@@ -61,6 +48,7 @@ public class Item extends Character{
         super.setSprite(sprite);
     }
     
+    //metodo accesor
     public void setMatrix(int[][] matrix, int typeMove) {
         this.matrix = matrix;
         this.typeMovement=typeMove;
@@ -74,6 +62,7 @@ public class Item extends Character{
 
     @Override
     public void run() {
+        //valida los movimientos del item
         if(this.typeMovement==1 && (this.matrix[this.startPoint[0]][this.startPoint[1]+1]==0 ||
                 this.matrix[this.startPoint[0]][this.startPoint[1]-1]==0)){
             this.rigth();
@@ -89,6 +78,7 @@ public class Item extends Character{
         }
     }
     
+    //se mueve hacia arriba
     public void up(){
         ArrayList<Image> sprite = super.getSprite();
         int num=0;
@@ -112,6 +102,7 @@ public class Item extends Character{
         this.down();
     }
     
+    //se mueve hacia abajo
     public void down(){
         ArrayList<Image> sprite = super.getSprite();
         int num=0;
@@ -135,6 +126,7 @@ public class Item extends Character{
         this.up();
     }
     
+    //se mueve hacia la derecha
     public void rigth(){
         ArrayList<Image> sprite = super.getSprite();
         int num=0;
@@ -158,6 +150,7 @@ public class Item extends Character{
         this.left();
     }
     
+    //se mueve hacia la izquierda
     public void left(){
         ArrayList<Image> sprite = super.getSprite();
         int num=0;

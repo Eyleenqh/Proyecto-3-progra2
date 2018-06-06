@@ -43,27 +43,23 @@ public class EasyMode extends Application implements Runnable {
     private int exit = 7;
     private int start = 8;
     private int size = 30;
-    private int referenceMatrix[][] = {{11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11},
-    {start, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 11},
-    {11, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 11},
-    {11, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11},
-    {11, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 11},
-    {11, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 11},
-    {11, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 11},
-    {11, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11},
-    {11, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 11},
-    {11, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 11},
-    {11, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 11},
-    {11, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 11},
-    {11, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 11},
-    {11, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 11},
-    {11, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 11},
-    {11, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 11},
-    {11, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, exit},
-    {11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 11},
-    {11, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 11},
-    {11, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 11},
-    {11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11}};
+    private int referenceMatrix[][] = {{11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11},
+    {11, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11},
+    {11, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 11},
+    {11, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 11},
+    {11, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 11},
+    {11, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 11},
+    {11, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 11},
+    {11, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 11},
+    {11, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 11},
+    {11, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11},
+    {11, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 11},
+    {11, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 11},
+    {11, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 11},
+    {start, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 11},
+    {11, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 11},
+    {11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, exit},
+    {11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11}};
 
     private Thread thread;
     private SynchronizedBuffer syncBuff;
@@ -128,16 +124,16 @@ public class EasyMode extends Application implements Runnable {
         //
 
         this.pane = new Pane();
-        this.canvas = new Canvas(primaryStage.getWidth(), primaryStage.getHeight());
+        this.canvas = new Canvas(648, 648);
         this.canvas.setOnMouseClicked(mouseClick);
         this.pane.getChildren().add(this.canvas);
         this.gc = canvas.getGraphicsContext2D();
 
-        //
+        
         this.grid.setVgap(10);
         this.grid.setHgap(17);
         //labels y textFields
-//        this.grid.add(this.general, 0, 0);
+        //this.grid.add(this.general, 0, 0);
         this.grid.add(this.playerslbl, 0, 1);
         this.grid.add(this.playersTfd, 0, 2);
 
@@ -459,7 +455,7 @@ public class EasyMode extends Application implements Runnable {
             this.fast = new FastCharacter[this.fastQ];
             for (int i = 0; i < this.fastQ; i++) {
                 this.fast[i] = new FastCharacter(0, (27 * size) - size, this.size, 10, 0, this.syncBuff);
-                this.fast[i].setMatrix(this.referenceMatrix);
+                this.fast[i].setMatrix(this.referenceMatrix, this.start);
                 this.arrayFast.add(this.fast[i]);
             }
         }

@@ -29,21 +29,26 @@ public class DrawingMethods {
         this.character = new Image(new FileInputStream("assets/piD2.png"));
     }
 
+    //dibuja el laberinto
     public void drawMaze(GraphicsContext gc, int referenceMatrix[][], int exit, int start, int size) {
         this.matriz = referenceMatrix;
         gc.clearRect(0, 0, 1920, 1080);
+        //se recorre la matriz
         for (int i = 0; i < referenceMatrix.length; i++) {
             for (int j = 0; j < referenceMatrix.length; j++) {
-                if (referenceMatrix[i][j] == 0 || referenceMatrix[i][j] == 2 || referenceMatrix[i][j] == 3 || referenceMatrix[i][j] == 4 || referenceMatrix[i][j] == 5) {
+                //valida si hay cero para poner un camino
+                if (referenceMatrix[i][j] == 0 ) {
                     gc.drawImage(this.path, j * size, i * size, size, size);
                 } else {
+                    //valida si hay un 1 o 11 para poner un muro
                     if (referenceMatrix[i][j] == 1 || referenceMatrix[i][j] == 11) {
                         gc.drawImage(this.wall, j * size, i * size, size, size);
                     } else {
+                        //valida si es el start para que poner el inicio
                         if (referenceMatrix[i][j] == start) {
                             gc.drawImage(this.path, j * size, i * size, size, size);
-                            //gc.drawImage(this.character, j * size, i * size, size, size);
                         } else {
+                            //Valida si el el exit para poner la meta
                             if (referenceMatrix[i][j] == exit) {
                                 gc.drawImage(this.finish, j * size, i * size, size, size);
                             }

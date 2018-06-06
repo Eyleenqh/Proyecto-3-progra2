@@ -455,7 +455,7 @@ public class HardMode extends Application implements Runnable {
             this.fast = new FastCharacter[this.fastQ];
             for (int i = 0; i < this.fastQ; i++) {
                 this.fast[i] = new FastCharacter(0, (27 * size) - size, this.size, 10, 0, this.syncBuff);
-                this.fast[i].setMatrix(this.referenceMatrix);
+                this.fast[i].setMatrix(this.referenceMatrix, this.start);
                 this.arrayFast.add(this.fast[i]);
             }
         }

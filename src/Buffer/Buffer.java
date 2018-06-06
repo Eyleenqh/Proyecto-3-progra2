@@ -13,5 +13,4 @@ public interface Buffer {
 
     public boolean move(int direction, int[][] matrix, int[] startPoint);
 
-    public boolean getPos();
 }

@@ -41,19 +41,6 @@ public class FuriousCharacter extends Character {
         setRightSprite();
     }
 
-    public FuriousCharacter(int time, int size, ArrayList<Image> energy, int[][] matrix, int x, int y, int speed, int imageNum) {
-        super(x, y, speed, imageNum);
-        this.time = time;
-        this.energy = energy;
-        this.matrix = matrix;
-        this.size = size;
-        try {
-            setRightSprite();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     //define los sprite
     //sprite derecha
     public void setRightSprite() throws FileNotFoundException {
@@ -162,43 +149,25 @@ public class FuriousCharacter extends Character {
         ArrayList<Image> sprite = super.getSprite();
 
         for (int count = 0;; count++) {
+            //valida si ya llego a la meta
             if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
-                this.matrix[startPoint[0]][startPoint[1]] = 2;
-            }
-            //se consulta en el buffer si es posible seguir avanzando en caso de que no haya un muro
-            if (this.sharedBuffer.move(1, this.matrix, this.startPoint)) {
-                if (count == 2) {
-                    if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
-                        this.matrix[startPoint[0]][startPoint[1]] = 0;
+                //se consulta en el buffer si es posible seguir avanzando en caso de que no haya un muro
+                if (this.sharedBuffer.move(1, this.matrix, this.startPoint)) {
+                    if (count == 2) {
+                        this.startPoint[1]++;
                     }
-                    this.startPoint[1]++;
-                }
-                if (count == 3) {
-                    count = 0;
-                }
-                //se le da una nueva posicion para que avance
-                super.setImage(sprite.get(count));
-                super.setX(super.getX() + (this.size / 3));
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {//hay un muro
-                if (this.sharedBuffer.getPos()) {
                     if (count == 3) {
                         count = 0;
                     }
+                    //se le da una nueva posicion para que avance
                     super.setImage(sprite.get(count));
+                    super.setX(super.getX() + (this.size / 3));
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } else {
-                    if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
-                        this.matrix[startPoint[0]][startPoint[1]] = 0;
-                    }
+                } else {//hay un muro
                     //entonces elige una nueva direccion aleatoria
                     int m = (int) randomCoord();
                     if (m == 1) {
@@ -211,6 +180,8 @@ public class FuriousCharacter extends Character {
                         this.up();
                     }
                 }
+            } else {
+                Thread.interrupted();
             }
         }
     }
@@ -222,43 +193,25 @@ public class FuriousCharacter extends Character {
         ArrayList<Image> sprite = super.getSprite();
 
         for (int count = 0;; count++) {
+            //valida si ya llego a la meta
             if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
-                this.matrix[startPoint[0]][startPoint[1]] = 3;
-            }
-            //se consulta en el buffer si es posible seguir avanzando en caso de que no haya un muro
-            if (this.sharedBuffer.move(2, this.matrix, this.startPoint)) {
-                if (count == 2) {
-                    if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
-                        this.matrix[startPoint[0]][startPoint[1]] = 0;
+                //se consulta en el buffer si es posible seguir avanzando en caso de que no haya un muro
+                if (this.sharedBuffer.move(2, this.matrix, this.startPoint)) {
+                    if (count == 2) {
+                        this.startPoint[1]--;
                     }
-                    this.startPoint[1]--;
-                }
-                if (count == 3) {
-                    count = 0;
-                }
-                //se le da una nueva posicion para que avance
-                super.setImage(sprite.get(count));
-                super.setX(super.getX() - (this.size / 3));
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {//hay un muro
-                if (this.sharedBuffer.getPos()) {
                     if (count == 3) {
                         count = 0;
                     }
+                    //se le da una nueva posicion para que avance
                     super.setImage(sprite.get(count));
+                    super.setX(super.getX() - (this.size / 3));
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } else {
-                    if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
-                        this.matrix[startPoint[0]][startPoint[1]] = 0;
-                    }
+                } else {//hay un muro
                     //entonces elige una nueva direccion aleatoria
                     int m = (int) randomCoord();
                     if (m == 1) {
@@ -271,6 +224,8 @@ public class FuriousCharacter extends Character {
                         this.down();
                     }
                 }
+            } else {
+                Thread.interrupted();
             }
         }
     }
@@ -282,43 +237,25 @@ public class FuriousCharacter extends Character {
         ArrayList<Image> sprite2 = super.getSprite();
 
         for (int count = 0;; count++) {
+            //valida si ya llego a la meta
             if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
-                this.matrix[startPoint[0]][startPoint[1]] = 4;
-            }
-            //se consulta en el buffer si es posible seguir avanzando en caso de que no haya un muro
-            if (this.sharedBuffer.move(3, this.matrix, this.startPoint)) {
-                if (count == 2) {
-                    if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
-                        this.matrix[startPoint[0]][startPoint[1]] = 0;
+                //se consulta en el buffer si es posible seguir avanzando en caso de que no haya un muro
+                if (this.sharedBuffer.move(3, this.matrix, this.startPoint)) {
+                    if (count == 2) {
+                        this.startPoint[0]++;
                     }
-                    this.startPoint[0]++;
-                }
-                if (count == 3) {
-                    count = 0;
-                }
-                //se le da una nueva posicion para que avance
-                super.setImage(sprite2.get(count));
-                super.setY(super.getY() + (this.size / 3));
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {//hay un muro
-                if (this.sharedBuffer.getPos()) {
                     if (count == 3) {
                         count = 0;
                     }
+                    //se le da una nueva posicion para que avance
                     super.setImage(sprite2.get(count));
+                    super.setY(super.getY() + (this.size / 3));
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } else {
-                    if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
-                        this.matrix[startPoint[0]][startPoint[1]] = 0;
-                    }
+                } else {//hay un muro
                     //entonces elige una nueva direccion aleatoria
                     int m = (int) randomCoord();
                     if (m == 1) {
@@ -331,6 +268,8 @@ public class FuriousCharacter extends Character {
                         this.down();
                     }
                 }
+            } else {
+                Thread.interrupted();
             }
         }
     }
@@ -342,44 +281,25 @@ public class FuriousCharacter extends Character {
         ArrayList<Image> sprite2 = super.getSprite();
 
         for (int count = 0;; count++) {
+            //valida si ya llego a la meta
             if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
-                this.matrix[startPoint[0]][startPoint[1]] = 5;
-            }
-
-            //se consulta en el buffer si es posible seguir avanzando en caso de que no haya un muro
-            if (this.sharedBuffer.move(4, this.matrix, this.startPoint)) {
-                if (count == 2) {
-                    if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
-                        this.matrix[startPoint[0]][startPoint[1]] = 0;
+                //se consulta en el buffer si es posible seguir avanzando en caso de que no haya un muro
+                if (this.sharedBuffer.move(4, this.matrix, this.startPoint)) {
+                    if (count == 2) {
+                        this.startPoint[0]--;
                     }
-                    this.startPoint[0]--;
-                }
-                if (count == 3) {
-                    count = 0;
-                }
-                //se le da una nueva posicion para que avance
-                super.setImage(sprite2.get(count));
-                super.setY(super.getY() - (this.size / 3));
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {//hay un muro
-                if (this.sharedBuffer.getPos()) {
                     if (count == 3) {
                         count = 0;
                     }
+                    //se le da una nueva posicion para que avance
                     super.setImage(sprite2.get(count));
+                    super.setY(super.getY() - (this.size / 3));
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } else {
-                    if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
-                        this.matrix[startPoint[0]][startPoint[1]] = 0;
-                    }
+                } else {//hay un muro
                     //entonces elige una nueva direccion aleatoria
                     int m = (int) randomCoord();
                     if (m == 1) {
@@ -392,6 +312,8 @@ public class FuriousCharacter extends Character {
                         this.up();
                     }
                 }
+            } else {
+                Thread.interrupted();
             }
         }
     }

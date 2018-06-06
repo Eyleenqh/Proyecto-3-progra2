@@ -11,18 +11,12 @@ package Buffer;
  */
 public class SynchronizedBuffer implements Buffer {
 
-    private boolean pos = false;
-
     @Override
     public synchronized boolean move(int direction, int[][] matrix, int[] startPoint) {
-        this.pos = false;
         //derecha
         if (direction == 1) {
-            if (matrix[startPoint[0]][startPoint[1] + 1] == 2) {
-                pos = true;
-                return false;
-            }
-            if (matrix[startPoint[0]][startPoint[1] + 1] == 0 || matrix[startPoint[0]][startPoint[1] + 1] == 3) {
+            //valida que hay en la siguiente posicion
+            if (matrix[startPoint[0]][startPoint[1] + 1] == 0 || matrix[startPoint[0]][startPoint[1] + 1] == 7) {
                 return true;
             } else {
                 return false;
@@ -31,12 +25,8 @@ public class SynchronizedBuffer implements Buffer {
         }
         //izquierda
         if (direction == 2) {
-            if (matrix[startPoint[0]][startPoint[1] - 1] == 3) {
-                pos = true;
-                return false;
-            }
-            if (matrix[startPoint[0]][startPoint[1] - 1] == 0 || matrix[startPoint[0]][startPoint[1] - 1] == 2
-                    || matrix[startPoint[0]][startPoint[1] - 1] == 8) {
+            //valida que hay en la siguiente posicion
+            if (matrix[startPoint[0]][startPoint[1] - 1] == 0 || matrix[startPoint[0]][startPoint[1] - 1] == 7) {
                 return true;
             } else {
                 return false;
@@ -45,11 +35,8 @@ public class SynchronizedBuffer implements Buffer {
         }
         //abajo
         if (direction == 3) {
-            if (matrix[startPoint[0] + 1][startPoint[1]] == 4) {
-                pos = true;
-                return false;
-            }
-            if (matrix[startPoint[0] + 1][startPoint[1]] == 0 || matrix[startPoint[0] + 1][startPoint[1]] == 5) {
+            //valida que hay en la siguiente posicion
+            if (matrix[startPoint[0] + 1][startPoint[1]] == 0) {
                 return true;
             } else {
                 return false;
@@ -58,11 +45,8 @@ public class SynchronizedBuffer implements Buffer {
         }
         //arriba
         if (direction == 4) {
-            if (matrix[startPoint[0] - 1][startPoint[1]] == 5) {
-                pos = true;
-                return false;
-            }
-            if (matrix[startPoint[0] - 1][startPoint[1]] == 0 || matrix[startPoint[0] - 1][startPoint[1]] == 4) {
+            //valida que hay en la siguiente posicion
+            if (matrix[startPoint[0] - 1][startPoint[1]] == 0) {
                 return true;
             } else {
                 return false;
@@ -70,11 +54,6 @@ public class SynchronizedBuffer implements Buffer {
 
         }
         return true;
-    }
-
-    @Override
-    public boolean getPos() {
-        return this.pos;
     }
 
 } // end class SynchronizedBuffer
