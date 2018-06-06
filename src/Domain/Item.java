@@ -22,12 +22,10 @@ public class Item extends Character{
 
     //atributos
     private Buffer sharedBuffer;
-    private int getBack=0;
     private int[] startPoint;
     private int time, size, typeMovement;
     private int [][] matrix;
     ArrayList<Image> energy;
-    private DrawingMethods drawing;
 
     //constructores
     public Item(int x, int y, int size, int speed, int imageNum, Buffer shared) throws FileNotFoundException {

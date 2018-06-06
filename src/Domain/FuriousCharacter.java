@@ -22,12 +22,10 @@ public class FuriousCharacter extends Character {
 
     //atributos
     private Buffer sharedBuffer;
-    private int getBack = 0;
     private int[] startPoint;
     private int time, size;
     private int[][] matrix;
     ArrayList<Image> energy;
-    private DrawingMethods drawing;
     private String name;
 
     //constructores

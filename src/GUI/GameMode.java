@@ -31,10 +31,15 @@ public class GameMode extends Application {
     private Image mazeEasy, mazeMedium, mazeHard;
     private ImageView mazeImageE, mazeImageM, mazeImageH;
     private GridPane gpane;
-
+    private EasyMode easyMode;
+    private MediumMode mediumMode;
+    private HardMode hardMode;
     @Override
     public void start(Stage stage) throws Exception {
-
+        
+        this.easyMode=new EasyMode();
+        this.mediumMode=new MediumMode();
+        this.hardMode=new HardMode();
         //inicializamos las imagenes y los imageview
         this.mazeEasy = new Image(new File("assets/Maze Modo1.png").toURI().toString());
         this.mazeMedium = new Image(new File("assets/Maze Modo2.png").toURI().toString());
@@ -58,7 +63,6 @@ public class GameMode extends Application {
 
             @Override
             public void handle(ActionEvent t) {
-                EasyMode easyMode = new EasyMode();
                 try {
                     easyMode.start(stage);
                 } catch (FileNotFoundException ex) {
@@ -72,7 +76,6 @@ public class GameMode extends Application {
 
             @Override
             public void handle(ActionEvent t) {
-                MediumMode mediumMode = new MediumMode();
                 try {
                     mediumMode.start(stage);
                 } catch (FileNotFoundException ex) {
@@ -86,7 +89,6 @@ public class GameMode extends Application {
 
             @Override
             public void handle(ActionEvent t) {
-                HardMode hardMode=new HardMode();
                 try {
                     hardMode.start(stage);
                 } catch (FileNotFoundException ex) {

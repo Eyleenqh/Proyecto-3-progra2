@@ -24,7 +24,6 @@ public class FastCharacter extends Character {
     private Buffer sharedBuffer;
     private int time;
     private int[][] matrix;
-    private DrawingMethods drawing;
     private ArrayList<Image> energy;
     private int[] startPoint;
     private int size;

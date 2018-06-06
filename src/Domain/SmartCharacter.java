@@ -27,7 +27,6 @@ public class SmartCharacter extends Character {
     private int[] startPoint;
     private int time, size;
     private int[][] matrix;
-    private DrawingMethods drawing;
 
     //constructores
     public SmartCharacter(int x, int y, int size, int speed, int imageNum, Buffer shared) throws FileNotFoundException {
