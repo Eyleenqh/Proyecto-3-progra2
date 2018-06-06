@@ -28,6 +28,7 @@ public class FuriousCharacter extends Character{
     private int [][] matrix;
     ArrayList<Image> energy;
     private DrawingMethods drawing;
+    private String name;
     
     //constructores
     public FuriousCharacter(int x, int y, int size, int speed, int imageNum, Buffer shared) throws FileNotFoundException {
@@ -80,6 +81,14 @@ public class FuriousCharacter extends Character{
 
     public int[][] getMatrix() {
         return matrix;
+    }
+    
+    public void setNames(String name){
+        this.name=name;
+    }
+    
+    public String getNames(){
+        return this.name;
     }
 
     public void setMatrix(int[][] matrix, int start) {

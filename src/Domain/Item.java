@@ -5,9 +5,13 @@
  */
 package Domain;
 
+import Buffer.Buffer;
+import Methods.DrawingMethods;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.image.Image;
 
 /**
@@ -16,68 +20,37 @@ import javafx.scene.image.Image;
  */
 public class Item extends Character{
 
-    private int[] firstStart;
-    private int typeItem;
-    private int [][] matriz;
-    private int time, size;
-    private ArrayList<Image> sprite;
+    //atributos
+    private Buffer sharedBuffer;
+    private int getBack=0;
+    private int[] startPoint;
+    private int time, size, typeMovement;
+    private int [][] matrix;
+    ArrayList<Image> energy;
+    private DrawingMethods drawing;
 
-    public Item() throws FileNotFoundException {
-        super();
-        this.firstStart=new int[2];
-        this.time=0;
-        this.size=0;
-        this.typeItem=0;
-        this.setSprite();
-    }
-
-    public Item(int x, int y, int speed, int imageNum, int type, int size) throws FileNotFoundException {
-        super(x, y, 5, 0);
-        this.firstStart=new int[2];
-        this.time=0;
+    //constructores
+    public Item(int x, int y, int size, int speed, int imageNum, Buffer shared) throws FileNotFoundException {
+        super(x, y, speed, imageNum);
+        this.sharedBuffer = shared;
+        this.time = 0;
         this.size=size;
-        this.typeItem=type;
-        this.setSprite();
+        this.energy = null;
+        this.startPoint = new int[2];
+        setSprite();
     }
     
-    public void setMatrix(int [][] ma){
-        this.matriz=ma;
-        if(this.typeItem==1){
-            if(this.matriz.length==22){
-
-            }
-
-            if(this.matriz.length==42){
-
-            }
-
-            if(this.matriz.length==52){
-                this.firstStart[0]=17;
-                this.firstStart[1]=17;
-                super.setX(17*13);
-                super.setY(17*13);
-            }
-        }else{
-            System.out.println("g");
-            if(this.matriz.length==22){
-
-            }
-
-            if(this.matriz.length==42){
-
-            }
-
-            if(this.matriz.length==52){
-                this.firstStart[0]=40;
-                this.firstStart[1]=40;
-                super.setX(40*13);
-                super.setY(40*13);
-            }
+    public Item(int time, int size, ArrayList<Image> energy, int[][] matrix, int x, int y, int speed, int imageNum) {
+        super(x, y, speed, imageNum);
+        this.time = time;
+        this.energy = energy;
+        this.matrix = matrix;
+        this.size=size;
+        try {
+            setSprite();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    
-    public int[][] getMatrix(){
-        return this.matriz;
     }
     
     public void setSprite() throws FileNotFoundException {
@@ -85,79 +58,116 @@ public class Item extends Character{
         for (int i = 0; i < 2; i++) {
             sprite.add(new Image(new FileInputStream("assets/Fan" + (i + 1) + ".png")));
         }
-        super.setSprite(sprite);   
+        super.setSprite(sprite);
+    }
+    
+    public void setMatrix(int[][] matrix, int typeMove) {
+        this.matrix = matrix;
+        this.typeMovement=typeMove;
+        this.startPoint[0]= (int) (Math.random()*(this.matrix.length/2));
+        this.startPoint[1]= (int) (Math.random()*(this.matrix.length/2));
     }
 
     @Override
     public void run() {
-        this.sprite=super.getSprite();
-        int x=super.getX();
-        int y=super.getY();
+        if(this.typeMovement==1){
+            this.rigth();
+            this.left();
+        }else{
+            this.up();
+            this.down();
+        }
+    }
+    
+    public void up(){
+        ArrayList<Image> sprite = super.getSprite();
         int num=0;
+        super.setX(this.startPoint[1]*this.size);
         
-        while(true){
-            try{
-                Thread.sleep(400);
-                if(this.typeItem==1){
-                    if(this.up()){
-                        super.setImage(this.sprite.get(num));
-                        super.setY(super.getY()-this.size);
-                        this.firstStart[0]++;
-                    }else{
-                        if(this.down()){
-                            super.setImage(this.sprite.get(num));
-                            super.setY(super.getY()+this.size);
-                            this.firstStart[0]++;
-                        }
-                    }
-                }else{
-                    if(this.left()){
-                        super.setImage(this.sprite.get(num));
-                        super.setY(super.getY()-this.size);
-                        this.firstStart[1]--;
-                    }else{
-                        if(this.rigth()){
-                            super.setImage(this.sprite.get(num));
-                            super.setY(super.getY()+this.size);
-                            this.firstStart[1]++;
-                        }
-                    }
-                }
-                
-                if(num==0){
-                    num++;
-                }else{
-                    num=0;
-                }
-            }catch(InterruptedException ine){}
+        while(this.sharedBuffer.move(4, this.matrix, this.startPoint)){
+            super.setImage(sprite.get(num));
+            this.startPoint[0]--;
+            super.setY(this.startPoint[0] * this.size);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if(num==1){
+                num=0;
+            }else{
+                num=1;
+            }
         }
+        this.down();
     }
     
-    public boolean up(){
-        if(this.matriz[this.firstStart[0]+1][this.firstStart[1]]==0){
-            return true;
+    public void down(){
+        ArrayList<Image> sprite = super.getSprite();
+        int num=0;
+        super.setX(this.startPoint[1]*this.size);
+        
+        while(this.sharedBuffer.move(3, this.matrix, this.startPoint)){
+            super.setImage(sprite.get(num));
+            this.startPoint[0]++;
+            super.setY(this.startPoint[0] * this.size);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if(num==1){
+                num=0;
+            }else{
+                num=1;
+            }
         }
-        return false;
+        this.up();
     }
     
-    public boolean down(){
-        if(this.matriz[this.firstStart[0]-1][this.firstStart[1]]==0){
-            return true;
+    public void rigth(){
+        ArrayList<Image> sprite = super.getSprite();
+        int num=0;
+        super.setY(this.startPoint[0]*this.size);
+        
+        while(this.sharedBuffer.move(1, this.matrix, this.startPoint)){
+            super.setImage(sprite.get(num));
+            this.startPoint[1]++;
+            super.setX(this.startPoint[1] * this.size);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if(num==1){
+                num=0;
+            }else{
+                num=1;
+            }
         }
-        return false;
+        this.left();
     }
     
-    public boolean left(){
-        if(this.matriz[this.firstStart[0]][this.firstStart[1]-1]==0){
-            return true;
+    public void left(){
+        ArrayList<Image> sprite = super.getSprite();
+        int num=0;
+        super.setY(this.startPoint[0]*this.size);
+        
+        while(this.sharedBuffer.move(2, this.matrix, this.startPoint)){
+            super.setImage(sprite.get(num));
+            this.startPoint[1]--;
+            super.setX(this.startPoint[1] * this.size);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if(num==1){
+                num=0;
+            }else{
+                num=1;
+            }
         }
-        return false;
-    }
-    
-    public boolean rigth(){
-        if(this.matriz[this.firstStart[0]][this.firstStart[1]+1]==0){
-            return true;
-        }
-        return false;
+        this.rigth();
     }
 }
