@@ -5,6 +5,8 @@
  */
 package GUI;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -14,7 +16,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -22,9 +31,12 @@ import javafx.stage.Stage;
  * @author faubricioch
  */
 public class MainWindow extends Application{
-
+    
+    private Pane mainPane;
     @Override
     public void start(Stage stage) throws Exception {
+        this.mainPane = new Pane();
+        
         //titulo
         stage.setTitle("Maze of Threads");
         
@@ -53,18 +65,31 @@ public class MainWindow extends Application{
         
         //agregamos el menu a la barra
         bar.getMenus().add(menu);
-        
-        BorderPane pane=new BorderPane();
-        pane.setTop(bar);
+        bar.relocate(0, 0);
+        this.mainPane.getChildren().add(bar);
         
         //declaramos scene
-        Scene scene=new Scene(pane, 300, 300);
+        Scene scene=new Scene(this.mainPane, 600, 600);
         
         //lo agregamos a la ventana
         stage.setScene(scene);
         
+        //ponemos el fondo de la ventaba principal
+        setBackground();
+        
         //lo mostramos todo
         stage.show();
+    }
+    
+    //metodo que establece el fondo de la ventana principal
+    public void setBackground() throws FileNotFoundException{
+        Image back = new Image(new FileInputStream("assets/icon.png"));
+        //asigna el tamanio que va a tener la imagen
+        BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, false);
+        //establece la imagen como fondo
+        BackgroundImage backgroundImage = new BackgroundImage(back, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
+        Background background = new Background(backgroundImage);
+        this.mainPane.setBackground(background);
     }
     
 }
