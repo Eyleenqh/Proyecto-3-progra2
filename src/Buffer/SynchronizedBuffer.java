@@ -11,40 +11,70 @@ package Buffer;
  */
 public class SynchronizedBuffer implements Buffer {
 
-    private Character buffer = null; // shared by producer and consumer threads
-    private int occupiedBufferCount = 0; // count of occupied buffers
+    private boolean pos = false;
 
     @Override
     public synchronized boolean move(int direction, int[][] matrix, int[] startPoint) {
-        if(direction==1){
-            if (matrix[startPoint[0]][startPoint[1]+1] == 0) {
-                return true;
-            }else{
+        this.pos = false;
+        //derecha
+        if (direction == 1) {
+            if (matrix[startPoint[0]][startPoint[1] + 1] == 2) {
+                pos = true;
                 return false;
             }
+            if (matrix[startPoint[0]][startPoint[1] + 1] == 0 || matrix[startPoint[0]][startPoint[1] + 1] == 3) {
+                return true;
+            } else {
+                return false;
+            }
+
         }
-        if(direction==2){
-            if (matrix[startPoint[0]][startPoint[1]-1] == 0){
-                return true;
-            }else{
+        //izquierda
+        if (direction == 2) {
+            if (matrix[startPoint[0]][startPoint[1] - 1] == 3) {
+                pos = true;
                 return false;
             }
+            if (matrix[startPoint[0]][startPoint[1] - 1] == 0 || matrix[startPoint[0]][startPoint[1] - 1] == 2
+                    || matrix[startPoint[0]][startPoint[1] - 1] == 8) {
+                return true;
+            } else {
+                return false;
+            }
+
         }
-        if(direction==3){
-            if(matrix[startPoint[0]+1][startPoint[1]] == 0){
-                return true;
-            }else{
+        //abajo
+        if (direction == 3) {
+            if (matrix[startPoint[0] + 1][startPoint[1]] == 4) {
+                pos = true;
                 return false;
             }
+            if (matrix[startPoint[0] + 1][startPoint[1]] == 0 || matrix[startPoint[0] + 1][startPoint[1]] == 5) {
+                return true;
+            } else {
+                return false;
+            }
+
         }
-        if(direction==4){
-            if(matrix[startPoint[0]-1][startPoint[1]] == 0){
-                return true;
-            }else{
+        //arriba
+        if (direction == 4) {
+            if (matrix[startPoint[0] - 1][startPoint[1]] == 5) {
+                pos = true;
                 return false;
             }
+            if (matrix[startPoint[0] - 1][startPoint[1]] == 0 || matrix[startPoint[0] - 1][startPoint[1]] == 4) {
+                return true;
+            } else {
+                return false;
+            }
+
         }
         return true;
+    }
+
+    @Override
+    public boolean getPos() {
+        return this.pos;
     }
 
 } // end class SynchronizedBuffer

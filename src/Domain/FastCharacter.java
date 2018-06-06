@@ -28,12 +28,13 @@ public class FastCharacter extends Character {
     private ArrayList<Image> energy;
     private int[] startPoint;
     private int size;
+    private String name;
 
     //constructores
     public FastCharacter(int x, int y, int size, int speed, int imageNum, Buffer shared) {
         super(x, y, speed, imageNum);
         this.sharedBuffer = shared;
-        this.size=size;
+        this.size = size;
         this.time = 0;
         this.energy = null;
         this.startPoint = new int[2];
@@ -92,11 +93,19 @@ public class FastCharacter extends Character {
                 if (matrix[i][x] == 8) {
                     this.startPoint[0] = i;//fila
                     this.startPoint[1] = x;//columna
-                    super.setX(x*this.size);
-                    super.setY(i*this.size);
+                    super.setX(x * this.size);
+                    super.setY(i * this.size);
                 }
             }
         }
+    }
+
+    public String getNames() {
+        return this.name;
+    }
+
+    public void setNames(String name) {
+        this.name = name;
     }
 
     @Override
@@ -118,30 +127,54 @@ public class FastCharacter extends Character {
         int i = this.getY();
 
         for (int count = 0;; count++) {
+            if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
+                this.matrix[startPoint[0]][startPoint[1]] = 2;
+            }
             if (this.sharedBuffer.move(1, this.matrix, this.startPoint)) {
                 if (count == 2) {
+                    if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
+                        this.matrix[startPoint[0]][startPoint[1]] = 0;
+                    }
                     this.startPoint[1]++;
-                }
-                if (count == 3) {
-                    count = 0;
-                }
-                super.setImage(sprite.get(count));
-                super.setX(super.getX() + this.size/3);
-                try {
-                    Thread.sleep(80);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
-                int m = (int) randomCoord();
-                if (m == 1) {
-                    this.up();
-                }
-                if (m == 2) {
-                    this.down();
-                }
-                if (m == 3) {
-                    this.right();
+                    if (count == 2) {
+                        this.startPoint[1]++;
+                    }
+                    if (count == 3) {
+                        count = 0;
+                    }
+                    super.setImage(sprite.get(count));
+                    super.setX(super.getX() + this.size / 3);
+                    try {
+                        Thread.sleep(80);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    if (this.sharedBuffer.getPos()) {
+                        if (count == 3) {
+                            count = 0;
+                        }
+                        super.setImage(sprite.get(count));
+                        try {
+                            Thread.sleep(80);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
+                            this.matrix[startPoint[0]][startPoint[1]] = 0;
+                        }
+                    }
+                    int m = (int) randomCoord();
+                    if (m == 1) {
+                        this.up();
+                    }
+                    if (m == 2) {
+                        this.down();
+                    }
+                    if (m == 3) {
+                        this.right();
+                    }
                 }
             }
         }
@@ -154,30 +187,51 @@ public class FastCharacter extends Character {
 
         //this.setX(j);
         for (int count = 0;; count++) {
+            if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
+                this.matrix[startPoint[0]][startPoint[1]] = 3;
+            }
             if (this.sharedBuffer.move(2, this.matrix, this.startPoint)) {
                 if (count == 2) {
+                    if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
+                        this.matrix[startPoint[0]][startPoint[1]] = 0;
+                    }
                     this.startPoint[1]--;
                 }
                 if (count == 3) {
                     count = 0;
                 }
                 super.setImage(sprite.get(count));
-                super.setX(super.getX()-this.size/3);
+                super.setX(super.getX() - this.size / 3);
                 try {
                     Thread.sleep(80);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
-                int m = (int) randomCoord();
-                if (m == 1) {
-                    this.up();
-                }
-                if (m == 2) {
-                    this.down();
-                }
-                if (m == 3) {
-                    this.left();
+                if (this.sharedBuffer.getPos()) {
+                    if (count == 3) {
+                        count = 0;
+                    }
+                    super.setImage(sprite.get(count));
+                    try {
+                        Thread.sleep(80);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
+                        this.matrix[startPoint[0]][startPoint[1]] = 0;
+                    }
+                    int m = (int) randomCoord();
+                    if (m == 1) {
+                        this.up();
+                    }
+                    if (m == 2) {
+                        this.down();
+                    }
+                    if (m == 3) {
+                        this.left();
+                    }
                 }
             }
         }
@@ -189,30 +243,51 @@ public class FastCharacter extends Character {
         int i = this.getY() / 10;
 
         for (int count = 0;; count++) {
+            if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
+                this.matrix[startPoint[0]][startPoint[1]] = 4;
+            }
             if (this.sharedBuffer.move(3, this.matrix, this.startPoint)) {
                 if (count == 2) {
+                    if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
+                        this.matrix[startPoint[0]][startPoint[1]] = 0;
+                    }
                     this.startPoint[0]++;
                 }
                 if (count == 3) {
                     count = 0;
                 }
                 super.setImage(sprite2.get(count));
-                super.setY(super.getY()+this.size/3);
+                super.setY(super.getY() + this.size / 3);
                 try {
                     Thread.sleep(80);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
-                int m = (int) randomCoord();
-                if (m == 1) {
-                    this.down();
-                }
-                if (m == 2) {
-                    this.right();
-                }
-                if (m == 3) {
-                    this.left();
+                if (this.sharedBuffer.getPos()) {
+                    if (count == 3) {
+                        count = 0;
+                    }
+                    super.setImage(sprite2.get(count));
+                    try {
+                        Thread.sleep(80);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
+                        this.matrix[startPoint[0]][startPoint[1]] = 0;
+                    }
+                    int m = (int) randomCoord();
+                    if (m == 1) {
+                        this.down();
+                    }
+                    if (m == 2) {
+                        this.right();
+                    }
+                    if (m == 3) {
+                        this.left();
+                    }
                 }
             }
         }
@@ -224,30 +299,51 @@ public class FastCharacter extends Character {
         int i = this.getY() / 10;
 
         for (int count = 0;; count++) {
+            if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
+                this.matrix[startPoint[0]][startPoint[1]] = 5;
+            }
             if (this.sharedBuffer.move(4, this.matrix, this.startPoint)) {
                 if (count == 2) {
+                    if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
+                        this.matrix[startPoint[0]][startPoint[1]] = 0;
+                    }
                     this.startPoint[0]--;
                 }
                 if (count == 3) {
                     count = 0;
                 }
                 super.setImage(sprite2.get(count));
-                super.setY(super.getY()-this.size/3);
+                super.setY(super.getY() - this.size / 3);
                 try {
                     Thread.sleep(80);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
-                int m = (int) randomCoord();
-                if (m == 1) {
-                    this.up();
-                }
-                if (m == 2) {
-                    this.right();
-                }
-                if (m == 3) {
-                    this.left();
+                if (this.sharedBuffer.getPos()) {
+                    if (count == 3) {
+                        count = 0;
+                    }
+                    super.setImage(sprite2.get(count));
+                    try {
+                        Thread.sleep(80);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(FastCharacter.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    if (this.matrix[startPoint[0]][startPoint[1]] != 7) {
+                        this.matrix[startPoint[0]][startPoint[1]] = 0;
+                    }
+                    int m = (int) randomCoord();
+                    if (m == 1) {
+                        this.up();
+                    }
+                    if (m == 2) {
+                        this.right();
+                    }
+                    if (m == 3) {
+                        this.left();
+                    }
                 }
             }
         }

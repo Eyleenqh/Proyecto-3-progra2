@@ -34,10 +34,10 @@ public class DrawingMethods {
         gc.clearRect(0, 0, 1920, 1080);
         for (int i = 0; i < referenceMatrix.length; i++) {
             for (int j = 0; j < referenceMatrix.length; j++) {
-                if (referenceMatrix[i][j] == 0) {
+                if (referenceMatrix[i][j] == 0 || referenceMatrix[i][j] == 2 || referenceMatrix[i][j] == 3 || referenceMatrix[i][j] == 4 || referenceMatrix[i][j] == 5) {
                     gc.drawImage(this.path, j * size, i * size, size, size);
                 } else {
-                    if (referenceMatrix[i][j] == 1) {
+                    if (referenceMatrix[i][j] == 1 || referenceMatrix[i][j] == 11) {
                         gc.drawImage(this.wall, j * size, i * size, size, size);
                     } else {
                         if (referenceMatrix[i][j] == start) {
